@@ -45,7 +45,7 @@ CSV format is also supported. A CSV format would look like this:
 ### Built-in Container Types
 
 | Key | Rows | Columns | Notes
-| ----------------------
+| ----| ---- |---------| -----
 | 6-well | 2 | 3
 | 96-deep | 8 | 12 | 96 Deepwell Plate
 | 96-flat | 8 | 12
@@ -55,7 +55,7 @@ CSV format is also supported. A CSV format would look like this:
 ### Built-in Meta options
 
 | Name | Description | Required
-| -----------------------------
+| -----| ------------| ----------
 | TYPE      | Plate/container type | Yes
 | NOTE      | | No
 | BARCODE   | Plate/container barcode | No
