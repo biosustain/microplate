@@ -83,6 +83,22 @@ var types = {
   '96-pcr': {
     rows: 8,
     columns: 12
+  },
+  '384-deep': {
+    rows: 16,
+    columns: 24
+  },
+  '384-semi-deep': {
+    rows: 16,
+    columns: 24
+  },
+  '384-flat': {
+    rows: 16,
+    columns: 24
+  },
+  'omnitray': {
+    rows: 1,
+    columns: 1
   }
 };
 function cellValue(sheet, c) {

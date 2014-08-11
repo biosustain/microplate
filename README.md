@@ -1,7 +1,18 @@
 Microplate.js
 =============
 
-Reader &amp; writer for microtiter plate layouts in XSLX or CSV format.
+Reader &amp; writer for microtiter plate layouts in XLSX format.
+
+## Usage
+
+	var Microplate = require('microplate');
+	var layouts = Microplate.fromFile('example.xlsx)['Sheet1'];
+	
+	// layouts[0].get('A1') 
+	// layouts[0].set('A1', wellContents) 
+	// layouts[0].toJSON()
+	
+	Microplate.toFile(Layout.fromJSON({type: '96-well', contents: {A1: 'well content'}));
 
 ## Layout Formats
 
@@ -23,9 +34,11 @@ A spreadsheet with one or more plate layouts will be formatted like this:
 	.
 	.
 	
-The layout reader will return all layouts it detects — grouped by sheet.
+It possible to specify multiple values per well. Microplate.js looks at the number of rows between *A* and *B* to determine how many rows there are per well. If the `ROWS` meta variable is specified, contents are grouped by the row names, otherwise they are numbered.
+
+The layout reader will return all layouts it detects; grouped by sheet. 
 	
-CSV format is also supported. A CSV format would look like this:
+<!--CSV format is also supported. A CSV format would look like this:
 
 	,,,,,,,,,,,,,
 	TYPE,96-deep,,,,,,,,,,,
@@ -40,26 +53,31 @@ CSV format is also supported. A CSV format would look like this:
 	C,,,,,,,,,,,,,C
 	
 	...
-	
+	-->
 
 ### Built-in Container Types
 
 | Key | Rows | Columns | Notes
-| ----| ---- |---------| -----
+| ----------------------
 | 6-well | 2 | 3
-| 96-deep | 8 | 12 | 96 Deepwell Plate
+| 96-deep | 8 | 12
 | 96-flat | 8 | 12
 | 96-pcr | 8 | 12
+| 96-rack | 8 | 12 | For tube racks
+| 384-flat | 16 | 24 
+| 384-deep | 16 | 24 
+| 384-semi-deep | 16 | 24 
+| omnitray | 1 | 1
 
 
 ### Built-in Meta options
 
 | Name | Description | Required
-| -----| ------------| ----------
+| -----------------------------
 | TYPE      | Plate/container type | Yes
 | NOTE      | | No
 | BARCODE   | Plate/container barcode | No
 | MEDIUM    | Default Medium | No
 | PREFIX    | Project-prefix for all Components | No
 | ROWS		| `;` or `,` separated list of named rows if multiple rows per well exist | No
-| {ROWNAME}-PREFIX | Prefixed to all rows of a certain name | No
+<!--| {ROWNAME}-PREFIX | Prefixed to all rows of a certain name | No-->
