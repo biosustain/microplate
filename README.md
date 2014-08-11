@@ -38,7 +38,7 @@ It possible to specify multiple values per well. Microplate.js looks at the numb
 
 The layout reader will return all layouts it detects; grouped by sheet. 
 	
-<!--CSV format is also supported. A CSV format would look like this:
+CSV format will also be supported in the future. A CSV format would look like this:
 
 	,,,,,,,,,,,,,
 	TYPE,96-deep,,,,,,,,,,,
@@ -53,12 +53,12 @@ The layout reader will return all layouts it detects; grouped by sheet.
 	C,,,,,,,,,,,,,C
 	
 	...
-	-->
+
 
 ### Built-in Container Types
 
 | Key | Rows | Columns | Notes
-| ----------------------
+| ----|------|---------|-------
 | 6-well | 2 | 3
 | 96-deep | 8 | 12
 | 96-flat | 8 | 12
@@ -73,7 +73,7 @@ The layout reader will return all layouts it detects; grouped by sheet.
 ### Built-in Meta options
 
 | Name | Description | Required
-| -----------------------------
+| -----|-------------|---------
 | TYPE      | Plate/container type | Yes
 | NOTE      | | No
 | BARCODE   | Plate/container barcode | No
