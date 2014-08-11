@@ -1,0 +1,32 @@
+{
+  "name": "Microplate.js",
+  "version": "1.0.0",
+  "description": "Reader & writer for microtiter plate layouts in XSLX or CSV format.",
+  "main": "microplate.js",
+  "directories": {
+    "example": "example",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/_mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/biosustain/Microplate.js.git"
+  },
+  "author": "Lars Schöning",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/biosustain/Microplate.js/issues"
+  },
+  "homepage": "https://github.com/biosustain/Microplate.js",
+  "devDependencies": {
+    "mocha": "^1.21.4",
+    "should": "^4.0.4"
+  },
+  "dependencies": {
+    "traceur-runtime": "0.0.43",
+    "underscore": "^1.6.0",
+    "xlsx": "^0.7.8"
+  }
+}

@@ -26,3 +26,7 @@ node_modules
 
 # WebStorm
 .idea
+
+# Bower & Node
+bower_components
+node_modules
