@@ -80,4 +80,3 @@ CSV format will also be supported in the future. A CSV format would look like th
 | MEDIUM    | Default Medium | No
 | PREFIX    | Project-prefix for all Components | No
 | ROWS		| `;` or `,` separated list of named rows if multiple rows per well exist | No
-<!--| {ROWNAME}-PREFIX | Prefixed to all rows of a certain name | No-->
