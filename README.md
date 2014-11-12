@@ -1,5 +1,7 @@
-dksn.js
+Microplate.js
 =============
+
+*Warning! This README is not up to date*
 
 Reader &amp; writer for microtiter plate layouts in XLSX format.
 
