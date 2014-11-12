@@ -1,4 +1,4 @@
-Microplate.js
+dksn.js
 =============
 
 Reader &amp; writer for microtiter plate layouts in XLSX format.
@@ -34,7 +34,7 @@ A spreadsheet with one or more plate layouts will be formatted like this:
 	.
 	.
 	
-It possible to specify multiple values per well. Microplate.js looks at the number of rows between *A* and *B* to determine how many rows there are per well. If the `ROWS` meta variable is specified, contents are grouped by the row names, otherwise they are numbered.
+It possible to specify multiple values per well. dksn.js looks at the number of rows between *A* and *B* to determine how many rows there are per well. If the `ROWS` meta variable is specified, contents are grouped by the row names, otherwise they are numbered.
 
 The layout reader will return all layouts it detects; grouped by sheet. 
 	

@@ -4,7 +4,7 @@ var $traceurRuntime = require('traceur-runtime');
 
 
 describe('Microplate.js', function () {
-    var Microplate = require('./../dist/Microplate.js');
+    var Microplate = require('./../dist/microplate.js');
 
     it('should load', function () {
         Microplate.should.be.ok;
@@ -18,6 +18,7 @@ describe('Microplate.js', function () {
             '96-pcr': { rows: 8, columns: 12 }
         });
     });
+
 
     it('should read convert an empty sheet', function () {
         var file = fs.readFileSync('./example/example.xlsx');
@@ -64,6 +65,7 @@ describe('Microplate.js', function () {
             note: 'A sample note',
             prefix: null,
             rows: [ 'strain', 'medium' ],
+            name: 'PlateName',
             contents:
             {
                 A1: { strain: 'strain-A1', medium: 'medium-A1' },
