@@ -1,36 +1,46 @@
 {
   "name": "microplate",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Reader & writer for microtiter plate layouts in XSLX or CSV format.",
   "main": "dist/microplate.js",
   "bin": {
     "microplate": "./dist/cli.js"
   },
-  "keywords": ["microplate", "microwell", "biology", "excel"],
+  "keywords": [
+    "microplate",
+    "microwell",
+    "biology",
+    "excel"
+  ],
   "directories": {
     "example": "example",
     "test": "tests"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha test"
+    "test": "mocha --compilers js:mocha-babel test/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/biosustain/Microplate.js.git"
+    "url": "https://github.com/biosustain/microplate.git"
   },
   "author": "Lars Schöning",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/biosustain/Microplate.js/issues"
+    "url": "https://github.com/biosustain/microplate/issues"
   },
-  "homepage": "https://github.com/biosustain/Microplate.js",
+  "homepage": "https://github.com/biosustain/microplate",
   "devDependencies": {
-    "mocha": "^1.21.4",
-    "should": "^4.0.4"
+    "babel": "^5.5.8",
+    "chai": "^3.0.0",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "gulp-util": "^3.0.4",
+    "mocha": "^2.2.5",
+    "mocha-babel": "^3.0.0",
+    "requirejs": "^2.1.17"
   },
   "dependencies": {
-    "traceur-runtime": "0.0.43",
-    "underscore": "^1.6.0",
+    "babel-runtime": "^5.5.8",
     "xlsx": "^0.7.8"
   }
 }
