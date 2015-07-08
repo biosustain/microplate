@@ -39,7 +39,7 @@ class Sheet {
 class XSLXSheet extends Sheet {
 
     constructor(sheet, name = null) {
-
+        super();
     }
 
     /**
