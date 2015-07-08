@@ -11,4 +11,4 @@ gulp.task('dist', function () {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('default', ['babel']);
+gulp.task('default', ['dist']);
