@@ -7,18 +7,17 @@ export class Workbook {
 
     constructor(file, filename = 'xlsx'){
         var workbook = XLSX.read(file, {type: 'binary'});
-        this.workbook = {};
-
-        workbook.SheetNames.forEach(function (sheetName) {
-            var sheet = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-            if (sheet.length > 0) {
-                this.workbook[sheetName] = new Sheet(sheet, sheetName);
-            }
-        }.bind(this))
+        this.sheets = workbook.SheetNames.map((sheetName) => Sheet.from(workbook.Sheets[sheetName], sheetName));
+        this.names = workbook.SheetNames;
     }
 
-    get sheets() {
+    sheetNames() {
+        return this.names;
+    }
 
+    sheet(name) {
+        let index = this.names.findIndex((_name) => name == _name);
+        return this.sheets[index];
     }
 
     saveAs(filename, filetype = 'csv') {
