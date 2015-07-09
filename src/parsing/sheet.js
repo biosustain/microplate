@@ -4,7 +4,7 @@ import XLSX from 'xlsx';
 export class Sheet {
 
     constructor(data, name = null) {
-        this.sheet = Sheet.from(data);
+        this.roa  = data;
         this.name = name;
     }
 
@@ -16,5 +16,10 @@ export class Sheet {
     set(position, value) {}
     clear(position) {}
 
-    static from(data){}
+    static from(data, name = null){
+        if('!ref' in data){
+            data = XLSX.utils.sheet_to_json(data);
+        }
+        return new Sheet(data, name);
+    }
 }
