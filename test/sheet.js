@@ -30,25 +30,24 @@ describe('Sheet parsing', () => {
     })
 
     it('should return a correct value from a position', () => {
-        expect(sheet.get('1:1')).to.exist;
-        expect(sheet.get('1:1')).to.be.equal('id');
-        expect(sheet.get('3:1')).to.not.exist;
+        expect(sheet.get([0, 0])).to.exist;
+        expect(sheet.get([0, 0])).to.be.equal('id');
     });
 
     it('should set a value from a position', () => {
         let sheet2 = Sheet.from(data, 'mySheet');
-        sheet2.set('1:1', 'ID');
+        sheet2.set([0, 0], 'ID');
 
-        expect(sheet2.get('1:1')).to.exist;
-        expect(sheet2.get('1:1')).to.be.equal('ID');
+        expect(sheet2.get([0, 0])).to.exist;
+        expect(sheet2.get([0, 0])).to.be.equal('ID');
     });
 
     it('should correct clear a position', () => {
         let sheet2 = Sheet.from(data, 'mySheet');
-        sheet2.clear('1:1');
+        sheet2.clear([0, 0]);
 
-        expect(sheet2.get('1:1')).to.not.exist;
-        expect(sheet2.get('1:1')).to.be.null;
+        expect(sheet2.get([0, 0])).to.not.exist;
+        expect(sheet2.get([0, 0])).to.be.null;
     });
 
 });

@@ -12,9 +12,27 @@ export class Sheet {
 
     }
 
-    get(position) {}
-    set(position, value) {}
-    clear(position) {}
+    get(position) {
+        if(this.roa.length > position[0] && this.roa[position[0]].length > position[1]){
+            return this.roa[position[0]][position[1]];
+        }
+        throw new RangeError('Position out of bounds');
+    }
+
+    set(position, value) {
+        if(this.roa.length > position[0] && this.roa[position[0]].length > position[1]){
+            return this.roa[position[0]][position[1]] = value;
+        }
+        throw new RangeError('Position out of bounds');
+        
+    }
+
+    clear(position) {
+        if(this.roa.length > position[0] && this.roa[position[0]].length > position[1]){
+            return this.roa[position[0]][position[1]] = null;
+        }
+        throw new RangeError('Position out of bounds');
+    }
 
     static from(data, name = null){
         if('!ref' in data){
