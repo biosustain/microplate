@@ -7,7 +7,7 @@
 
 
 // layout is a parsed layout
-class Grid {
+class Layout {
 
     constructor(rows=null, columns=null) {
 
