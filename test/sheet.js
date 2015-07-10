@@ -13,7 +13,7 @@ describe('Sheet parsing', () => {
     ];
 
     let sheet  = new Sheet(data, 'mySheet');
-    let sheet1 = new Sheet(wb.Sheets[wb.SheetNames[0]], 'mySheet');
+    let sheet1 = Sheet.from(wb.Sheets[wb.SheetNames[0]], 'mySheet');
 
     it('should build a Sheet instance from an row object array', () => {
         expect(Sheet.from(data, 'mySheet')).to.be.an.instanceOf(Sheet);
