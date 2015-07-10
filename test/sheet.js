@@ -5,7 +5,7 @@ import fs from 'fs';
 
 describe('Sheet parsing', () => {
 
-    const file = fs.readFileSync('example/example-with-data.xlsx');
+    const file = fs.readFileSync('example/example-with-simple-data.xlsx');
     const wb   = XLSX.read(file, {type: 'binary'});
     const data = [
         ['id', 'name'],
@@ -32,6 +32,9 @@ describe('Sheet parsing', () => {
     it('should return a correct value from a position', () => {
         expect(sheet.get([0, 0])).to.exist;
         expect(sheet.get([0, 0])).to.be.equal('id');
+        // TODO add error tests
+        // expect(sheet.get([2, 0])).to.throw(RangeError);
+        // expect(sheet.get([2, 0])).to.not.throw(RangeError);
     });
 
     it('should set a value from a position', () => {
