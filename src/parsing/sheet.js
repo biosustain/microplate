@@ -12,24 +12,24 @@ export class Sheet {
 
     }
 
-    get(position) {
-        if(this.roa.length > position[0] && this.roa[position[0]].length > position[1]){
-            return this.roa[position[0]][position[1]];
+    get([row, column]) {
+        if(this.roa.length > row && this.roa[row].length > column){
+            return this.roa[row][column];
         }
         throw new RangeError('Position out of bounds');
     }
 
-    set(position, value) {
-        if(this.roa.length > position[0] && this.roa[position[0]].length > position[1]){
-            return this.roa[position[0]][position[1]] = value;
+    set([row, column], value) {
+        if(this.roa.length > row && this.roa[row].length > column){
+            return this.roa[row][column] = value;
         }
         throw new RangeError('Position out of bounds');
         
     }
 
-    clear(position) {
-        if(this.roa.length > position[0] && this.roa[position[0]].length > position[1]){
-            return this.roa[position[0]][position[1]] = null;
+    clear([row, column]) {
+        if(this.roa.length > row && this.roa[row].length > column){
+            return this.roa[row][column] = null;
         }
         throw new RangeError('Position out of bounds');
     }
