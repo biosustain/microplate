@@ -33,24 +33,27 @@ export class Sheet {
         }
         throw new RangeError('Position out of bounds');
     }
-
-    static from(data, name = null){
-        if('!ref' in data){
-            data = JSONto2dArray(XLSX.utils.sheet_to_json(data));
-        }
-        return new Sheet(data, name);
-    }
 }
 
-function JSONto2dArray(json) {
-    var keys = Object.keys(json[0]);
-    var twoDArray = [];
+export class XLSXSheet extends Sheet{
+    constructor(data, name = null){
+        this.xlsx = data;
+        this.name = name;
+    }
 
-    twoDArray.push(keys);
-    json.forEach((row) => {
-        var rowArray = Object.keys(row).map((key) => row[key]);
-        twoDArray.push(rowArray);
-    })
+    saveAs(filename, filetype = 'csv'){
 
-    return twoDArray;
+    }
+
+    get([row, column], value){
+
+    }
+
+    set([row, column]){
+
+    }
+
+    clear([row, column]){
+        
+    }
 }
