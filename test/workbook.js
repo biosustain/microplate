@@ -22,7 +22,7 @@ describe('Workbook parsing', () => {
     });
 
     it('should save the current Workbook into a file', () => {
-
+        expect(false).to.be.true;
     });
 
 });
