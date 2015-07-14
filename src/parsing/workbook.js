@@ -1,5 +1,5 @@
 import XLSX from 'xlsx';
-import {Sheet} from './sheet';
+import {XLSXSheet} from './sheet';
 
 // reads in multiple sheets
 // can be serialized
@@ -7,7 +7,7 @@ export class Workbook {
 
     constructor(file, filename = 'xlsx'){
         var workbook = XLSX.read(file, {type: 'binary'});
-        this.sheets = workbook.SheetNames.map((sheetName) => Sheet.from(workbook.Sheets[sheetName], sheetName));
+        this.sheets = workbook.SheetNames.map((sheetName) => new XLSXSheet(workbook.Sheets[sheetName], sheetName));
         this.names = workbook.SheetNames;
     }
 

@@ -4,7 +4,7 @@ import XLSX from 'xlsx';
 export class Sheet {
 
     constructor(data, name = null) {
-        this.roa  = data;
+        this.rep  = data;
         this.name = name;
     }
 
@@ -13,23 +13,23 @@ export class Sheet {
     }
 
     get([row, column]) {
-        if(this.roa.length > row && this.roa[row].length > column){
-            return this.roa[row][column];
+        if(this.rep.length > row && this.rep[row].length > column){
+            return this.rep[row][column];
         }
         throw new RangeError('Position out of bounds');
     }
 
     set([row, column], value) {
-        if(this.roa.length > row && this.roa[row].length > column){
-            return this.roa[row][column] = value;
+        if(this.rep.length > row && this.rep[row].length > column){
+            return this.rep[row][column] = value;
         }
         throw new RangeError('Position out of bounds');
         
     }
 
     clear([row, column]) {
-        if(this.roa.length > row && this.roa[row].length > column){
-            return this.roa[row][column] = null;
+        if(this.rep.length > row && this.rep[row].length > column){
+            return this.rep[row][column] = null;
         }
         throw new RangeError('Position out of bounds');
     }
@@ -37,23 +37,46 @@ export class Sheet {
 
 export class XLSXSheet extends Sheet{
     constructor(data, name = null){
-        this.xlsx = data;
-        this.name = name;
+        super(data, name);
+        this.maxRow    = data["!ref"].split(':')[1][0];
+        this.maxColumn = data["!ref"].split(':')[1][1];
     }
 
     saveAs(filename, filetype = 'csv'){
 
     }
 
-    get([row, column], value){
+    get([row, column]){
+        var lrow = numberToLetter(row);
+        column = column + 1;
 
+        if(this.maxRow >= lrow && this.maxColumn >= column){
+            return this.rep[`${lrow}${column}`].v;
+        }
+        throw new RangeError('Position out of bounds');
     }
 
-    set([row, column]){
+    set([row, column], value){
+        var lrow = numberToLetter(row);
+        column = column + 1;
 
+        if(this.maxRow >= lrow && this.maxColumn >= column){
+            return this.rep[`${lrow}${column}`].v = value;
+        }
+        throw new RangeError('Position out of bounds');
     }
 
     clear([row, column]){
+        var lrow = numberToLetter(row);
+        column = column + 1;
         
+        if(this.maxRow >= lrow && this.maxColumn >= column){
+            return this.rep[`${lrow}${column}`].v = null;
+        }
+        throw new RangeError('Position out of bounds');
     }
+}
+
+export function numberToLetter(number) {
+    return `${String.fromCharCode(number + 65)}`;
 }
