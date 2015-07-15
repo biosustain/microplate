@@ -39,8 +39,6 @@ export class XLSXSheet extends Sheet{
     constructor(data, name = null){
         super(data, name);
 
-        var sheetRange = XLSX.utils.decode_range(data['!ref']);
-
         this.sheetRange = {
             start: data['!ref'].split(':')[0],
             end  : data['!ref'].split(':')[1]
