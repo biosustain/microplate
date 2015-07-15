@@ -51,6 +51,10 @@ describe('Sheet parsing', () => {
         expect(sheet2.get([0, 0])).to.be.null;
     });
 
+    it('should save the current Sheet into a file', () => {
+        expect(false).to.be.true;
+    });
+
 });
 
 describe('XLSXSheet parsing', () => {
@@ -88,13 +92,8 @@ describe('XLSXSheet parsing', () => {
         expect(sheet2.get([0, 0])).to.be.null;
     });
 
-});
-
-describe('Helpers', () => {
-
-    it('should correctly get an alphabet letter from a number', () => {
-        expect(numberToLetter(0)).to.be.equal('A');
-        expect(numberToLetter(1)).to.be.equal('B');
+    it('should save the current Sheet into a file', () => {
+        expect(false).to.be.true;
     });
 
 });
