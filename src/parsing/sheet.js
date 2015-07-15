@@ -38,8 +38,7 @@ export class Sheet {
 export class XLSXSheet extends Sheet{
     constructor(data, name = null){
         super(data, name);
-        this.maxRow    = data["!ref"].split(':')[1][0];
-        this.maxColumn = data["!ref"].split(':')[1][1];
+        this.lastPosition = data["!ref"].split(':')[1];
     }
 
     saveAs(filename, filetype = 'csv'){
@@ -47,36 +46,42 @@ export class XLSXSheet extends Sheet{
     }
 
     get([row, column]){
-        var lrow = numberToLetter(row);
-        column = column + 1;
+        var position = XLSX.utils.encode_cell({r: row, c: column});
 
-        if(this.maxRow >= lrow && this.maxColumn >= column){
-            return this.rep[`${lrow}${column}`].v;
+        if(this.lastPosition >= position){
+            if(!!this.rep[position]){
+                return this.rep[position].v;
+            }
+            return null;
         }
         throw new RangeError('Position out of bounds');
     }
 
     set([row, column], value){
-        var lrow = numberToLetter(row);
-        column = column + 1;
+        var position = XLSX.utils.encode_cell({r: row, c: column});
 
-        if(this.maxRow >= lrow && this.maxColumn >= column){
-            return this.rep[`${lrow}${column}`].v = value;
+        // update position
+        if(this.maxPosition < position){
+            this.maxPosition = position;
         }
-        throw new RangeError('Position out of bounds');
+
+        this.rep[position].t = typeof value == 'number' ? 'n' : 's';
+
+        if(this.rep[position].t == 'n'){
+            this.rep[position].v = value;
+            this.rep[position].w = value.toString();
+        }
+        else {
+            this.rep[position].v = value;
+            this.rep[position].h = value;
+            this.rep[position].w = value;
+            this.rep[position].r = `<t>${value}</t>`;
+        }
+
     }
 
     clear([row, column]){
-        var lrow = numberToLetter(row);
-        column = column + 1;
-        
-        if(this.maxRow >= lrow && this.maxColumn >= column){
-            return this.rep[`${lrow}${column}`].v = null;
-        }
-        throw new RangeError('Position out of bounds');
+        var position = XLSX.utils.encode_cell({r: row, c: column});
+        delete this.rep[position];
     }
-}
-
-export function numberToLetter(number) {
-    return `${String.fromCharCode(number + 65)}`;
 }
