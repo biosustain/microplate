@@ -38,7 +38,13 @@ export class Sheet {
 export class XLSXSheet extends Sheet{
     constructor(data, name = null){
         super(data, name);
-        this.lastPosition = data["!ref"].split(':')[1];
+
+        var sheetRange = XLSX.utils.decode_range(data['!ref']);
+
+        this.sheetRange = {
+            start: data['!ref'].split(':')[0],
+            end  : data['!ref'].split(':')[1]
+        };
     }
 
     saveAs(filename, filetype = 'csv'){
@@ -48,7 +54,7 @@ export class XLSXSheet extends Sheet{
     get([row, column]){
         var position = XLSX.utils.encode_cell({r: row, c: column});
 
-        if(this.lastPosition >= position){
+        if(this.sheetRange.end >= position){
             if(!!this.rep[position]){
                 return this.rep[position].v;
             }
@@ -61,8 +67,12 @@ export class XLSXSheet extends Sheet{
         var position = XLSX.utils.encode_cell({r: row, c: column});
 
         // update position
-        if(this.maxPosition < position){
-            this.maxPosition = position;
+        if(this.sheetRange.end < position){
+            this.sheetRange.end = position;
+        }
+
+        if(this.sheetRange.start > position){
+            this.sheetRange.start = position;
         }
 
         this.rep[position].t = typeof value == 'number' ? 'n' : 's';
