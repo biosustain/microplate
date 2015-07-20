@@ -23,4 +23,30 @@ export class Workbook {
     saveAs(filename, filetype = 'csv') {
 
     }
+
+    toBlob() {
+        var workbook = {
+            SheetNames: this.names, //Object.keys(this.sheets),
+            Sheets: {}
+        };
+
+        //Object.keys(this.sheets).forEach((name) => {
+        for(let name of this.names) {
+            workbook.Sheets[name] = this.sheets[name].toXLSXObject();
+        }
+
+        let s = XLSX.write(workbook, {
+            bookType: 'xlsx',
+            bookSST: false,
+            type: 'binary'
+        });
+
+        let buffer = new ArrayBuffer(s.length);
+        let view = new Uint8Array(buffer);
+        for (let i = 0; i != s.length; ++i) {
+            view[i] = s.charCodeAt(i) & 0xFF;
+        }
+
+        return new Blob([buffer], {type: "application/octet-stream"});
+    }
 }

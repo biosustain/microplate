@@ -4,7 +4,7 @@ import XLSX from 'xlsx';
 export class Sheet {
 
     constructor(data, name = null) {
-        this.rep  = data;
+        this.contents  = data;
         this.name = name;
     }
 
@@ -13,25 +13,50 @@ export class Sheet {
     }
 
     get([row, column]) {
-        if(this.rep.length > row && this.rep[row].length > column){
-            return this.rep[row][column];
+        if(this.contents.length > row && this.contents[row].length > column){
+            return this.contents[row][column];
         }
         throw new RangeError('Position out of bounds');
     }
 
     set([row, column], value) {
-        if(this.rep.length > row && this.rep[row].length > column){
-            return this.rep[row][column] = value;
+        if(this.contents.length > row && this.contents[row].length > column){
+            return this.contents[row][column] = value;
         }
         throw new RangeError('Position out of bounds');
         
     }
 
     clear([row, column]) {
-        if(this.rep.length > row && this.rep[row].length > column){
-            return this.rep[row][column] = null;
+        if(this.contents.length > row && this.contents[row].length > column){
+            return this.contents[row][column] = null;
         }
         throw new RangeError('Position out of bounds');
+    }
+
+    toXLSXObject() {
+        //var cell;
+        //
+        //if (value === null) {
+        //    return;
+        //}
+        //
+        //if (typeof value == 'number') {
+        //    cell = {v: value, t: 'n'}
+        //} else {
+        //    cell = {v: value.toString(), t: 's'}
+        //}
+        //
+        //var range = this.range;
+        //var reference = XLSX.utils.encode_cell({c: column, r: row});
+        //
+        //if (range.s.r > row) range.s.r = row;
+        //if (range.s.c > column) range.s.c = column;
+        //if (range.e.r < row) range.e.r = row;
+        //if (range.e.c < column) range.e.c = column;
+        //
+        //this.contents[reference] = cell;
+        //this.contents['!ref'] = XLSX.utils.encode_range(range);
     }
 }
 
@@ -61,8 +86,8 @@ export class XLSXSheet extends Sheet{
         var position = XLSX.utils.encode_cell({r: row, c: column});
 
         if(this.sheetRange.end >= position){
-            if(!!this.rep[position]){
-                return this.rep[position].v;
+            if(!!this.contents[position]){
+                return this.contents[position].v;
             }
             return null;
         }
@@ -81,23 +106,23 @@ export class XLSXSheet extends Sheet{
             this.sheetRange.start = position;
         }
 
-        this.rep[position].t = typeof value == 'number' ? 'n' : 's';
+        this.contents[position].t = typeof value == 'number' ? 'n' : 's';
 
-        if(this.rep[position].t == 'n'){
-            this.rep[position].v = value;
-            this.rep[position].w = value.toString();
+        if(this.contents[position].t == 'n'){
+            this.contents[position].v = value;
+            this.contents[position].w = value.toString();
         }
         else {
-            this.rep[position].v = value;
-            this.rep[position].h = value;
-            this.rep[position].w = value;
-            this.rep[position].r = `<t>${value}</t>`;
+            this.contents[position].v = value;
+            this.contents[position].h = value;
+            this.contents[position].w = value;
+            this.contents[position].r = `<t>${value}</t>`;
         }
 
     }
 
     clear([row, column]){
         var position = XLSX.utils.encode_cell({r: row, c: column});
-        delete this.rep[position];
+        delete this.contents[position];
     }
 }

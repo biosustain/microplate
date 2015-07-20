@@ -1,5 +1,5 @@
 import {Sheet, XLSXSheet, numberToLetter} from '../src/parsing/sheet.js';
-import {Workbook} from '../src/parsing/Workbook.js';
+import {Workbook} from '../src/parsing/workbook.js';
 import {expect} from 'chai';
 import XLSX from 'xlsx';
 import fs from 'fs';
@@ -24,7 +24,7 @@ describe('Sheet parsing', () => {
     });
 
     it('should store a 2d-array representation', () => {
-        expect(sheet.rep).to.be.deep.equal(data);
+        expect(sheet.contents).to.be.deep.equal(data);
     })
 
     it('should return a correct value from a position', () => {
@@ -37,10 +37,10 @@ describe('Sheet parsing', () => {
 
     it('should set a value from a position', () => {
         let sheet2 = new Sheet(data, 'mySheet');
-        sheet2.set([0, 0], 'ID');
+        sheet2.set([12, 34], 'ID');
 
-        expect(sheet2.get([0, 0])).to.exist;
-        expect(sheet2.get([0, 0])).to.be.equal('ID');
+        expect(sheet2.get([12, 34])).to.exist;
+        expect(sheet2.get([12, 34])).to.be.equal('ID');
     });
 
     it('should correctly clear a position', () => {
