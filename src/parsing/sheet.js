@@ -49,6 +49,14 @@ export class XLSXSheet extends Sheet{
 
     }
 
+    getRows(){
+        return this.sheetRange.start;
+    }
+
+    getColumns(){
+        return this.sheetRange.end;
+    }
+
     get([row, column]){
         var position = XLSX.utils.encode_cell({r: row, c: column});
 
