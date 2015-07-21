@@ -1,4 +1,4 @@
-import {Sheet, XLSXSheet, numberToLetter} from '../src/parsing/sheet.js';
+import {Sheet, numberToLetter} from '../src/parsing/sheet.js';
 import {Workbook} from '../src/parsing/workbook.js';
 import {expect} from 'chai';
 import XLSX from 'xlsx';
@@ -6,11 +6,9 @@ import fs from 'fs';
 
 describe('Sheet parsing', () => {
 
-    const file = fs.readFileSync('example/example-with-simple-data.xlsx');
-    const wb   = XLSX.read(file, {type: 'binary'});
     const data = [
         ['id', 'name'],
-        ['1', 'item']
+        [1, 'item']
     ];
 
     let sheet  = new Sheet(data, 'mySheet');
@@ -24,7 +22,14 @@ describe('Sheet parsing', () => {
     });
 
     it('should store a 2d-array representation', () => {
-        expect(sheet.contents).to.be.deep.equal(data);
+        expect(sheet.rows).to.equal(2);
+        expect(sheet.columns).to.equal(2);
+        expect(sheet.contents).to.be.deep.equal({
+            A1: {v: 'id', t: 's'},
+            B1: {v: 'name', t: 's'},
+            A2: {v: 1, t: 'n'},
+            B2: {v: 'item', t: 's'}
+        });
     })
 
     it('should return a correct value from a position', () => {
@@ -61,11 +66,10 @@ describe('XLSXSheet parsing', () => {
 
     const file = fs.readFileSync('example/example-with-simple-data.xlsx');
     const wb   = new Workbook(file);
-    let sheet  = wb.sheet(wb.sheetNames()[0]);
+    let sheet  = wb.sheets[wb.sheetNames()[0]];
 
     it('should build a Sheet instance from an row object array or a .xlsx sheet', () => {
         expect(sheet).to.be.an.instanceOf(Sheet);
-        expect(sheet).to.be.an.instanceOf(XLSXSheet);
     });
 
     it('should return a correct value from a position', () => {

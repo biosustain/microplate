@@ -1,40 +1,72 @@
 import XLSX from 'xlsx';
 
+const encode_cell = XLSX.utils.encode_cell;
+
 // a sheet is a representation of one layout not yet parsed
 export class Sheet {
-
-    constructor(data, name = null) {
-        this.contents  = data;
+    constructor(source = [], name = null) {
         this.name = name;
+
+        if('!ref' in source) {
+            this.contents = source;
+            this.range = XLSX.utils.decode_range(source['!ref']);
+        } else {
+            this.contents = {};
+            this.range = {s: {c: 0, r: 0}, e: {r: 0, c: 0}};
+
+            for(let row = 0; row < source.length; row++) {
+                let columns = source[row].length;
+
+                for(let column = 0; column < columns; column++) {
+                    this.set([row, column], source[row][column]);
+                }
+            }
+        }
     }
 
-    saveAs(filename, filetype = 'csv') {
+    get columns() {
+        return this.range.e.r + 1;
+    }
 
+    get rows() {
+        return this.range.e.r + 1;
     }
 
     get([row, column]) {
-        if(this.contents.length > row && this.contents[row].length > column){
-            return this.contents[row][column];
+        let cell = this.contents[encode_cell({r: row, c: column})];
+        if (cell !== undefined) {
+            return cell.v;
         }
-        throw new RangeError('Position out of bounds');
     }
 
     set([row, column], value) {
-        if(this.contents.length > row && this.contents[row].length > column){
-            return this.contents[row][column] = value;
+        let cell;
+
+        if (typeof value == 'number') {
+            cell = {v: value, t: 'n'}
+        } else {
+            cell = {v: value.toString(), t: 's'}
         }
-        throw new RangeError('Position out of bounds');
-        
+
+        this.contents[encode_cell({c: column, r: row})] = cell;
+
+        if(column > this.range.e.c) {
+            this.range.e.c = column ;
+        }
+
+        if(row > this.range.e.r) {
+            this.range.e.r = row;
+        }
+
+        return value;
     }
 
     clear([row, column]) {
-        if(this.contents.length > row && this.contents[row].length > column){
-            return this.contents[row][column] = null;
-        }
-        throw new RangeError('Position out of bounds');
+        delete this.contents[encode_cell({r: row, c: column})];
     }
 
     toXLSXObject() {
+        // TODO
         //var cell;
         //
         //if (value === null) {
@@ -58,71 +90,8 @@ export class Sheet {
         //this.contents[reference] = cell;
         //this.contents['!ref'] = XLSX.utils.encode_range(range);
     }
-}
 
-export class XLSXSheet extends Sheet{
-    constructor(data, name = null){
-        super(data, name);
+    saveAs(filename, filetype = 'csv') {
 
-        this.sheetRange = {
-            start: data['!ref'].split(':')[0],
-            end  : data['!ref'].split(':')[1]
-        };
-    }
-
-    saveAs(filename, filetype = 'csv'){
-
-    }
-
-    getRows(){
-        return this.sheetRange.start;
-    }
-
-    getColumns(){
-        return this.sheetRange.end;
-    }
-
-    get([row, column]){
-        var position = XLSX.utils.encode_cell({r: row, c: column});
-
-        if(this.sheetRange.end >= position){
-            if(!!this.contents[position]){
-                return this.contents[position].v;
-            }
-            return null;
-        }
-        throw new RangeError('Position out of bounds');
-    }
-
-    set([row, column], value){
-        var position = XLSX.utils.encode_cell({r: row, c: column});
-
-        // update position
-        if(this.sheetRange.end < position){
-            this.sheetRange.end = position;
-        }
-
-        if(this.sheetRange.start > position){
-            this.sheetRange.start = position;
-        }
-
-        this.contents[position].t = typeof value == 'number' ? 'n' : 's';
-
-        if(this.contents[position].t == 'n'){
-            this.contents[position].v = value;
-            this.contents[position].w = value.toString();
-        }
-        else {
-            this.contents[position].v = value;
-            this.contents[position].h = value;
-            this.contents[position].w = value;
-            this.contents[position].r = `<t>${value}</t>`;
-        }
-
-    }
-
-    clear([row, column]){
-        var position = XLSX.utils.encode_cell({r: row, c: column});
-        delete this.contents[position];
     }
 }
