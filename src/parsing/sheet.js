@@ -6,6 +6,7 @@ const encode_range = XLSX.utils.encode_range;
 
 // a sheet is a representation of one layout not yet parsed
 export class Sheet {
+
     constructor(source = [], name = null) {
         this.name = name;
 
@@ -39,6 +40,7 @@ export class Sheet {
         if (cell !== undefined) {
             return cell.v;
         }
+        return undefined;
     }
 
     set([row, column], value) {
@@ -52,10 +54,10 @@ export class Sheet {
 
         this.contents[encode_cell({c: column, r: row})] = cell;
 
-        if (range.s.r > row) range.s.r = row;
-        if (range.s.c > column) range.s.c = column;
-        if (range.e.r < row) range.e.r = row;
-        if (range.e.c < column) range.e.c = column;
+        if (this.range.s.r > row) this.range.s.r = row;
+        if (this.range.s.c > column) this.range.s.c = column;
+        if (this.range.e.r < row) this.range.e.r = row;
+        if (this.range.e.c < column) this.range.e.c = column;
 
         return value;
     }

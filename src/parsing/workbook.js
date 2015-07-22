@@ -5,7 +5,7 @@ import {Sheet} from './sheet';
 // can be serialized
 export class Workbook {
 
-    constructor(file, filename = 'xlsx'){
+    constructor(file){
         let workbook = XLSX.read(file, {type: 'binary'});
         this.sheets = {};
 
@@ -14,23 +14,22 @@ export class Workbook {
         }
     }
 
+    sheet(name) {
+        return this.sheets[name];
+    }
+
     sheetNames() {
         return Object.keys(this.sheets);
     }
 
-    saveAs(filename, filetype = 'csv') {
-
-    }
-
     toBlob() {
-        var workbook = {
-            SheetNames: this.names, //Object.keys(this.sheets),
+        let workbook = {
+            SheetNames: this.sheetNames(),
             Sheets: {}
         };
 
-        //Object.keys(this.sheets).forEach((name) => {
-        for(let name of this.names) {
-            workbook.Sheets[name] = this.sheets[name].toXLSXObject();
+        for(let name of workbook.SheetNames) {
+            workbook.Sheets[name] = this.sheets[name].toXLSXSheet();
         }
 
         let s = XLSX.write(workbook, {
@@ -46,5 +45,15 @@ export class Workbook {
         }
 
         return new Blob([buffer], {type: "application/octet-stream"});
+    }
+
+    *[Symbol.iterator]() {
+        for(let name of this.sheetNames()) {
+            yield this.sheets[name];
+        }
+    }
+
+    saveAs(filename) {
+
     }
 }

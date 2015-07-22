@@ -2,7 +2,7 @@ import {Workbook} from '../src/parsing/workbook.js';
 import {expect} from 'chai';
 import fs from 'fs';
 
-describe('Workbook parsing', () => {
+describe('Workbook', () => {
 
     let file = fs.readFileSync('example/example-with-data.xlsx');
     let wb = new Workbook(file);
@@ -12,8 +12,8 @@ describe('Workbook parsing', () => {
     });
 
     it('should return a list of Sheet names', () => {
-        expect(wb.sheetNames()).to.exist;
         expect(wb.sheetNames()).to.be.an.instanceOf(Array);
+        expect(wb.sheetNames()).to.have.members(['Sheet1']);
     });
 
     it('should return a Sheet by its name', () => {
@@ -21,7 +21,14 @@ describe('Workbook parsing', () => {
         expect(wb.sheet('Sheet2')).to.not.exist;
     });
 
-    it('should save the current Workbook into a file', () => {
+    it('should be iterable', () => {
+        let sheets = Array.from(wb);
+        expect(sheets).to.be.an.instanceOf(Array);
+        expect(sheets).to.have.members([wb.sheet('Sheet1')]);
+    });
+
+    it('should be possible to save a workbook', () => {
+        expect(wb.toBlob()).to.be.an.instanceOf(Blob);
         expect(false).to.be.true;
     });
 
