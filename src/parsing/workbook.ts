@@ -1,9 +1,10 @@
-import XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 import {Sheet} from './sheet';
 
 // reads in multiple sheets
 // can be serialized
 export class Workbook {
+    public sheets: {[name: string]: Sheet};
 
     constructor(file, filename = 'xlsx'){
         let workbook = XLSX.read(file, {type: 'binary'});
@@ -23,14 +24,14 @@ export class Workbook {
     }
 
     toBlob() {
-        var workbook = {
-            SheetNames: this.names, //Object.keys(this.sheets),
+        let workbook = {
+            SheetNames: Object.keys(this.sheets),
             Sheets: {}
         };
 
         //Object.keys(this.sheets).forEach((name) => {
-        for(let name of this.names) {
-            workbook.Sheets[name] = this.sheets[name].toXLSXObject();
+        for(let name of workbook.SheetNames) {
+            workbook.Sheets[name] = this.sheets[name].toXLSXSheet();
         }
 
         let s = XLSX.write(workbook, {

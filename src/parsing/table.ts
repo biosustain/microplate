@@ -1,4 +1,4 @@
-import XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 
 /**
  * Like Layout, but for tables that are not plate layouts.

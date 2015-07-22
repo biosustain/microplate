@@ -1,4 +1,5 @@
-import XLSX from 'xlsx';
+/// <reference path="../../typings/tsd.d.ts" />
+import * as XLSX from 'xlsx';
 
 const encode_cell = XLSX.utils.encode_cell;
 const decode_range = XLSX.utils.decode_range;
@@ -6,13 +7,15 @@ const encode_range = XLSX.utils.encode_range;
 
 // a sheet is a representation of one layout not yet parsed
 export class Sheet {
-    constructor(source = [], name = null) {
-        this.name = name;
+    public contents: any;
+    private range: XLSX.CellRange;
+
+    constructor(source: any[]|XLSX.Worksheet, public name: string = null) {
 
         if('!ref' in source) {
             this.contents = source;
             this.range = decode_range(source['!ref']);
-        } else {
+        } else if(source instanceof Array) {
             this.contents = {};
             this.range = {s: {c: 0, r: 0}, e: {r: 0, c: 0}};
 
@@ -52,11 +55,10 @@ export class Sheet {
 
         this.contents[encode_cell({c: column, r: row})] = cell;
 
-        if (range.s.r > row) range.s.r = row;
-        if (range.s.c > column) range.s.c = column;
-        if (range.e.r < row) range.e.r = row;
-        if (range.e.c < column) range.e.c = column;
-
+        if (this.range.s.r > row) this.range.s.r = row;
+        if (this.range.s.c > column) this.range.s.c = column;
+        if (this.range.e.r < row) this.range.e.r = row;
+        if (this.range.e.c < column) this.range.e.c = column;
         return value;
     }
 

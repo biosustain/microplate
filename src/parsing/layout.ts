@@ -1,24 +1,28 @@
-import XLSX from 'xlsx';
+/// <reference path="../xlsx.d.ts" />
+import * as XLSX from 'xlsx';
 
-class Layout {
+export class Layout {
+    private contents: {string: any};
+    private rows: number;
+    private columns: number;
 
     constructor(contents, rows = null, columns = null) {
         this.contents = contents;
         this.rows = rows;
         this.columns = columns;
     }
-
-    /**
-     *
-     * @param {[number, number]|string} position
-     * @param {string} key
-     */
-    get([row, column]) {
-        if(this.rows > row && this.columns > column){
-            return this.contents[position];
-        }
-        throw new RangeError('Position out of bounds');
-    }
+    //
+    ///**
+    // *
+    // * @param {[number, number]|string} position
+    // * @param {string} key
+    // */
+    //get([row, column]: [number, number]) {
+    //    if(this.rows > row && this.columns > column){
+    //        return this.contents[];
+    //    }
+    //    throw new RangeError('Position out of bounds');
+    //}
 
     set(position, value) {
         this.contents[position] = value;
@@ -49,12 +53,13 @@ class Layout {
      * @param validators
      * @param parallel
      */
-    static async parse(sheet, {
+    // TODO change to async function in TS 1.6
+    static parse(sheet, {
         required=[],
         converters={},
         validators={},
         parallel=false
-        } = {}) {
+        }): void { // Promise<any>
 
     }
 

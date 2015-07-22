@@ -1,8 +1,9 @@
-import {Sheet, numberToLetter} from '../src/parsing/sheet.js';
-import {Workbook} from '../src/parsing/workbook.js';
+/// <reference path="../typings/tsd.d.ts" />
+import {Sheet} from '../src/parsing/sheet';
+import {Workbook} from '../src/parsing/workbook';
 import {expect} from 'chai';
-import XLSX from 'xlsx';
-import fs from 'fs';
+import * as XLSX from 'xlsx';
+import {readFileSync} from 'fs';
 
 describe('Sheet parsing', () => {
 
@@ -64,7 +65,7 @@ describe('Sheet parsing', () => {
 
 describe('XLSXSheet parsing', () => {
 
-    const file = fs.readFileSync('example/example-with-simple-data.xlsx');
+    const file = readFileSync('example/example-with-simple-data.xlsx');
     const wb   = new Workbook(file);
     let sheet  = wb.sheets[wb.sheetNames()[0]];
 
@@ -81,7 +82,7 @@ describe('XLSXSheet parsing', () => {
     });
 
     it('should set a value from a position', () => {
-        let sheet2 = wb.sheet(wb.sheetNames()[0]);
+        let sheet2 = wb.sheets[wb.sheetNames()[0]];
         sheet2.set([0, 0], 'ID');
 
         expect(sheet2.get([0, 0])).to.exist;
@@ -89,7 +90,7 @@ describe('XLSXSheet parsing', () => {
     });
 
     it('should correctly clear a position', () => {
-        let sheet2 = wb.sheet(wb.sheetNames()[0]);
+        let sheet2 = wb.sheets[wb.sheetNames()[0]];
         sheet2.clear([0, 0]);
 
         expect(sheet2.get([0, 0])).to.not.exist;

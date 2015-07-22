@@ -17,7 +17,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha --compilers js:mocha-babel test/*.js"
+    "test": "mocha --compilers ts:typescript-require,js:mocha-babel test/*.ts"
   },
   "repository": {
     "type": "git",
@@ -34,10 +34,13 @@
     "chai": "^3.0.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
+    "gulp-typescript": "^2.8.0",
     "gulp-util": "^3.0.4",
     "mocha": "^2.2.5",
     "mocha-babel": "^3.0.0",
-    "requirejs": "^2.1.17"
+    "requirejs": "^2.1.17",
+    "typescript": "^1.5.3",
+    "typescript-require": "^0.2.9"
   },
   "dependencies": {
     "babel-runtime": "^5.5.8",

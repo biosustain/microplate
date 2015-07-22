@@ -1,4 +1,5 @@
-import {Layout} from '../src/parsing/layout.js';
+/// <reference path="../typings/tsd.d.ts" />
+import {Layout} from '../src/parsing/layout';
 import {expect} from 'chai';
 
 describe('Layout parsing', () => {

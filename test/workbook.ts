@@ -1,10 +1,11 @@
-import {Workbook} from '../src/parsing/workbook.js';
+/// <reference path="../typings/tsd.d.ts" />
+import {Workbook} from '../src/parsing/workbook';
 import {expect} from 'chai';
-import fs from 'fs';
+import {readFileSync} from 'fs';
 
 describe('Workbook parsing', () => {
 
-    let file = fs.readFileSync('example/example-with-data.xlsx');
+    let file = readFileSync('example/example-with-data.xlsx');
     let wb = new Workbook(file);
 
     it('should build a Workbook instance from a binary file', () => {
