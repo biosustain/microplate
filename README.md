@@ -1,84 +1,135 @@
-Microplate.js
-=============
+Microplate
+==========
 
-*Warning! This README is not up to date*
+The `microplate` package is built for parsing microtiter plate information from Excel sheets, validating the contents of plate layouts, and saving plate layouts into Excel or CSV files.
 
-Reader &amp; writer for microtiter plate layouts in XLSX format.
 
-## Usage
-
-	var Microplate = require('microplate');
-	var layouts = Microplate.fromFile('example.xlsx)['Sheet1'];
-	
-	// layouts[0].get('A1') 
-	// layouts[0].set('A1', wellContents) 
-	// layouts[0].toJSON()
-	
-	Microplate.toFile(Layout.fromJSON({type: '96-well', contents: {A1: 'well content'}));
-
-## Layout Formats
-
-This section describes the format when using the `default` converter.
+## Layout formats
 
 A spreadsheet with one or more plate layouts will be formatted like this:
 
-	TYPE	96-deep
-	NOTE	A sample note.
-	BARCODE	PL-123456789
-	MEDIUM	default-medium
-	
-	        1       2		3		...
-	A
-	B	
+	Plate1  1       2		3		...
+	A	    foo     bar
+	B                      baz
 	C
 	D
 	.
 	.
 	.
 	
-It possible to specify multiple values per well. dksn.js looks at the number of rows between *A* and *B* to determine how many rows there are per well. If the `ROWS` meta variable is specified, contents are grouped by the row names, otherwise they are numbered.
+	Plate 2 1       2		3		...
+	A
+	B
+	.
+	.
 
-The layout reader will return all layouts it detects; grouped by sheet. 
+Alternatively, the spreadsheet can be in tabular format:
+
+    PLATE    POSITION   NAME ...
+    Plate1   A1         foo 
+    Plate1   A2         bar
+    Plate1   B3         baz
+    .        .
+    .        .
+    .        .
+
+The plate layout parser will return a list of all layouts it detects.
+
+
+## Usage
+
+*The examples in this section contain ECMAScript 2016 (ES7) code. Use equivalent ECMAScript 5 code where necessary.*
+
+### Sheets
+
+
+A sheet object is created from either an Excel sheet, converted CSV file, or other 2D-array source. 
+
+TODO
+
+
+### Parsing and validating plate layouts
+
+
+TODO
+
+#### Tables
+
+In addition to plate layouts, the package contains a `Table` class. A table works just like a plate layout, with the difference that there are no well positions, but rows.
+
+	let sheet = new Sheet([
+		['id', 'name'],
+		[1, 'foo'],
+		[2, 'bar']
+	])
 	
-CSV format will also be supported in the future. A CSV format would look like this:
-
-	,,,,,,,,,,,,,
-	TYPE,96-deep,,,,,,,,,,,
-	NOTE,A sample note.,,,,,,,,,,,
-	BARCODE,PL-123456789,,,,,,,,,,,
-	PREFIX,Prefix-,,,,,,,,,,,
-	MEDIUM,default-medium,,,,,,,,,,,
-	,,,,,,,,,,,,,
-	,1,2,3,4,5,6,7,8,9,10,11,12,
-	A,,,,,,,,,,,,,A
-	B,,,,,,,,,,,,,B
-	C,,,,,,,,,,,,,C
+	let table = Table.parse(sheet);
 	
-	...
+	try { // validation
+	    table = await table.validate({id: idCheckFunction});
+	} except (e) { 
+		console.log('validation errors:', e)
+	}
+
+	for(let row of table) {
+		console.log(row);
+	}
+
+You can create a `Sheet` from a `Table` like so:
+	       
+	let sheet = new Table([
+		{id: 2, name: 'bar'},
+		{id: 3, name: 'baz'}
+	]).toSheet();
 
 
-### Built-in Container Types
+### Working with Excel files
 
-| Key | Rows | Columns | Notes
-| ----|------|---------|-------
-| 6-well | 2 | 3
-| 96-deep | 8 | 12
-| 96-flat | 8 | 12
-| 96-pcr | 8 | 12
-| 96-rack | 8 | 12 | For tube racks
-| 384-flat | 16 | 24 
-| 384-deep | 16 | 24 
-| 384-semi-deep | 16 | 24 
-| omnitray | 1 | 1
+The `microplate` package has some features that aid with import and export to Excel using [`xlsx`](https://www.npmjs.com/package/xlsx). These examples here are for command-line use. 
 
 
-### Built-in Meta options
+	import fs from 'fs';
+	import {Workbook} from 'microplate';
 
-| Name | Description | Required
-| -----|-------------|---------
-| TYPE      | Plate/container type | Yes
-| NOTE      | | No
-| BARCODE   | Plate/container barcode | No
-| MEDIUM    | Default Medium | No
-| PREFIX    | Project-prefix for all Components | No
-| ROWS		| `;` or `,` separated list of named rows if multiple rows per well exist | No
+    let file = fs.readFileSync('./example.xlsx');
+    let workbook = Workbook.fromFile(file);
+    
+    console.log(workbook.sheetNames()); // ['Sheet 1', 'Sheet 2']
+    
+    let sheet1 = workbook.sheet('Sheet 1');
+    console.log(sheet1.name); // 'Sheet 1'
+    
+    for(let sheet of workbook) { /* iterates through all sheets in a workbook */ }
+    
+    let workbook2 = new Workbook({foo: new Sheet()}); // initialize a new Workbook.
+
+
+You can also load a workbook from an `<input/>` in the browser. First, add a file input to your page:
+
+	<input type="file" accept=".xlsx" />
+
+Now you can load files like so:
+
+	let input = document.querySelector('input[type=file]');
+	
+	input.addEventListener('change', function () {
+		if(this.files.length) {
+			let fileReader = new FileReader();
+			fileReader.onload = (e) => {	
+				let workbook = Workbook.fromFile(e.target.result);
+				console.log(workbook);
+			});
+	
+			fileReader.readAsBinaryString(this.files[0]);
+		}
+	});
+
+
+To save a workbook in the browser, use e.g. [`filesaver.js`](https://www.npmjs.com/package/filesaver.js) :
+
+	import {saveAs} from 'filesaver.js';
+	let wb = new Workbook({foo: new Sheet()}); // initialize a new Workbook.
+    saveAs(wb.toBlob(), 'foo.xlsx');    
+    
+For more information, read [Using files from web applications](https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications) on MDN.
+

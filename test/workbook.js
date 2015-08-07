@@ -5,7 +5,7 @@ import fs from 'fs';
 describe('Workbook', () => {
 
     let file = fs.readFileSync('example/example-with-data.xlsx');
-    let wb = new Workbook(file);
+    let wb = Workbook.fromFile(file);
 
     it('should build a Workbook instance from a binary file', () => {
         expect(wb).to.be.an.instanceOf(Workbook);
@@ -29,7 +29,6 @@ describe('Workbook', () => {
 
     it('should be possible to save a workbook', () => {
         expect(wb.toBlob()).to.be.an.instanceOf(Blob);
-        expect(false).to.be.true;
     });
 
 });

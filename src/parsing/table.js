@@ -1,5 +1,6 @@
 import XLSX from 'xlsx';
 import {Sheet} from './sheet';
+import {convert, validateRecord} from '../utils';
 
 /**
  * Like Layout, but for tables that are not plate layouts.
@@ -18,6 +19,11 @@ export class Table {
 
         this.headers = headers;
         this.rows = contents;
+    }
+
+    async validate(validators, parallel = true) {
+
+        // TODO do validation here.
     }
 
     static async parse(sheet, {
@@ -70,23 +76,7 @@ export class Table {
                     continue;
                 }
 
-                if(header in converters) {
-                    switch(converters[header]) {
-                        case 'number':
-                            value = Number(value);
-                            break;
-                        case 'string[]':
-                            value = value.split(',').map((s) => s.trim());
-                            break;
-                        case 'number[]':
-                            value = value.split(',').map(Number);
-                            break;
-                        case 'string':
-                            break;
-                    }
-                }
-
-                row[header] = value;
+                row[header] = convert(value, converters[header]);
             }
 
             for(let name of required) {
@@ -100,11 +90,11 @@ export class Table {
 
         let validatedRows;
         if(parallel) {
-            validatedRows = await Promise.all([for(row of rows) validateRow(row, validators)])
+            validatedRows = await Promise.all([for(row of rows) validateRecord(row, validators)]);
         } else {
             validatedRows = [];
             for(let row of rows) {
-                validatedRows.push(await validateRow(row, validators, validatedRows));
+                validatedRows.push(await validateRecord(row, validators, validatedRows));
             }
         }
 
@@ -126,21 +116,4 @@ export class Table {
     *[Symbol.iterator]() {
         yield* this.rows;
     }
-}
-
-// TODO validate in parallel within a row
-async function validateRow(row, validators, ...args) {
-    let output = {};
-
-    for(let name of Object.keys(row)) {
-        let value = row[name];
-
-        if(name in validators) {
-            value = await validators[name](value, ...args);
-        }
-
-        output[name] = value;
-    }
-
-    return output;
 }

@@ -1,17 +1,21 @@
 import XLSX from 'xlsx';
 import {Sheet} from './sheet';
 
-// reads in multiple sheets
-// can be serialized
 export class Workbook {
 
-    constructor(file){
-        let workbook = XLSX.read(file, {type: 'binary'});
-        this.sheets = {};
+    constructor(sheets = {}) {
+        this.sheets = sheets;
+    }
 
-        for(let name of workbook.SheetNames) {
-            this.sheets[name] = new Sheet(workbook.Sheets[name], name);
+    static fromFile(file) {
+        let workbook = XLSX.read(file, {type: 'binary'});
+        let sheets = {};
+
+        for (let name of workbook.SheetNames) {
+            sheets[name] = new Sheet(workbook.Sheets[name], name);
         }
+
+        return new Workbook(sheets);
     }
 
     sheet(name) {
@@ -28,7 +32,7 @@ export class Workbook {
             Sheets: {}
         };
 
-        for(let name of workbook.SheetNames) {
+        for (let name of workbook.SheetNames) {
             workbook.Sheets[name] = this.sheets[name].toXLSXSheet();
         }
 
@@ -48,12 +52,9 @@ export class Workbook {
     }
 
     *[Symbol.iterator]() {
-        for(let name of this.sheetNames()) {
+        for (let name of this.sheetNames()) {
             yield this.sheets[name];
         }
     }
 
-    saveAs(filename) {
-
-    }
 }

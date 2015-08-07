@@ -1,4 +1,4 @@
-import {Sheet, numberToLetter} from '../src/parsing/sheet.js';
+import {Sheet} from '../src/parsing/sheet.js';
 import {Workbook} from '../src/parsing/workbook.js';
 import {expect} from 'chai';
 import XLSX from 'xlsx';
@@ -11,7 +11,7 @@ describe('Sheet parsing', () => {
         [1, 'item']
     ];
 
-    let sheet  = new Sheet(data, 'mySheet');
+    let sheet = new Sheet(data, 'mySheet');
 
     it('should build a Sheet instance from an row object array', () => {
         expect(new Sheet(data, 'mySheet')).to.be.an.instanceOf(Sheet);
@@ -53,7 +53,7 @@ describe('Sheet parsing', () => {
         sheet2.clear([0, 0]);
 
         expect(sheet2.get([0, 0])).to.not.exist;
-        expect(sheet2.get([0, 0])).to.be.null;
+        expect(sheet2.get([0, 0])).to.be.undefined;
     });
 
     it('should save the current Sheet into a file', () => {
@@ -65,8 +65,8 @@ describe('Sheet parsing', () => {
 describe('XLSXSheet parsing', () => {
 
     const file = fs.readFileSync('example/example-with-simple-data.xlsx');
-    const wb   = new Workbook(file);
-    let sheet  = wb.sheets[wb.sheetNames()[0]];
+    const wb = new Workbook(file);
+    let sheet = wb.sheets[wb.sheetNames()[0]];
 
     it('should build a Sheet instance from an row object array or a .xlsx sheet', () => {
         expect(sheet).to.be.an.instanceOf(Sheet);
@@ -93,11 +93,6 @@ describe('XLSXSheet parsing', () => {
         sheet2.clear([0, 0]);
 
         expect(sheet2.get([0, 0])).to.not.exist;
-        expect(sheet2.get([0, 0])).to.be.null;
+        expect(sheet2.get([0, 0])).to.be.undefined;
     });
-
-    it('should save the current Sheet into a file', () => {
-        expect(false).to.be.true;
-    });
-
 });
