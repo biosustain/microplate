@@ -1,4 +1,5 @@
 import XLSX from 'xlsx';
+import {Sheet} from './sheet';
 
 /**
  * Like Layout, but for tables that are not plate layouts.
@@ -10,13 +11,13 @@ export class Table {
      * @param array<object> contents
      * @param headers if these are not given, they are inferred from the first row.
      */
-    constructor(contents, headers = null) {
+    constructor(contents = [], headers = null) {
         if(headers === null && contents.length != 0) {
             headers = Object.keys(contents[0]);
         }
 
         this.headers = headers;
-        this.contents = contents;
+        this.rows = contents;
     }
 
     static async parse(sheet, {
@@ -84,6 +85,8 @@ export class Table {
                             break;
                     }
                 }
+
+                row[header] = value;
             }
 
             for(let name of required) {
@@ -110,18 +113,24 @@ export class Table {
     }
 
     appendRow(contents) {
-
-
+        this.rows.push(contents);
     }
 
     toSheet() {
+        let content = [this.headers].concat([for (row of this.rows) [for (header of this.headers) row[header]]]);
+        let sheet = new Sheet(content);
+        return sheet;
 
+    }
+
+    *[Symbol.iterator]() {
+        yield* this.rows;
     }
 }
 
 // TODO validate in parallel within a row
 async function validateRow(row, validators, ...args) {
-    let output = new Map();
+    let output = {};
 
     for(let name of Object.keys(row)) {
         let value = row[name];
@@ -130,7 +139,7 @@ async function validateRow(row, validators, ...args) {
             value = await validators[name](value, ...args);
         }
 
-        output.set(name, value);
+        output[name] = value;
     }
 
     return output;
