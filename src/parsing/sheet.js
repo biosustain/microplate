@@ -28,7 +28,7 @@ export class Sheet {
     }
 
     get columns() {
-        return this.range.e.r + 1;
+        return this.range.e.c + 1;
     }
 
     get rows() {
