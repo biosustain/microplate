@@ -4,24 +4,23 @@ const encode_cell = XLSX.utils.encode_cell;
 const decode_range = XLSX.utils.decode_range;
 const encode_range = XLSX.utils.encode_range;
 
-// a sheet is a representation of one layout not yet parsed
 export class Sheet {
 
     constructor(source = [], name = null) {
         this.name = name;
 
-        if('!ref' in source) {
+        if ('!ref' in source) {
             this.contents = source;
             this.range = decode_range(source['!ref']);
         } else {
             this.contents = {};
             this.range = {s: {c: 0, r: 0}, e: {r: 0, c: 0}};
 
-            for(let row = 0; row < source.length; row++) {
+            for (let row = 0; row < source.length; row++) {
                 let columns = source[row].length;
 
-                for(let column = 0; column < columns; column++) {
-                    this.set([row, column], source[row][column]);
+                for (let column = 0; column < columns; column++) {
+                    this.set(row, column, source[row][column]);
                 }
             }
         }
@@ -35,7 +34,7 @@ export class Sheet {
         return this.range.e.r + 1;
     }
 
-    get([row, column]) {
+    get(row, column) {
         let cell = this.contents[encode_cell({r: row, c: column})];
         if (cell !== undefined) {
             return cell.v;
@@ -43,7 +42,7 @@ export class Sheet {
         return undefined;
     }
 
-    set([row, column], value) {
+    set(row, column, value) {
         let cell;
 
         if (typeof value == 'number') {
@@ -62,7 +61,7 @@ export class Sheet {
         return value;
     }
 
-    clear([row, column]) {
+    clear(row, column) {
         delete this.contents[encode_cell({r: row, c: column})];
     }
 

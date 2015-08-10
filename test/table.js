@@ -5,12 +5,12 @@ import fs from 'fs';
 
 describe('Table', function () {
     const file = fs.readFileSync('./test/data/table-simple.xlsx');
-    const wb = new Workbook(file);
+    const wb = Workbook.fromFile(file);
 
-    it('should parse a sheet', async function (done) {
+    it('should parse and validate sheet', async function (done) {
         try {
-            let sheet = wb.sheets['valid-simple-1'];
-            let table = await Table.parse(sheet);
+            let sheet = wb.sheet('valid-simple-1');
+            let table = await Table.parse(sheet).validate({});
 
             expect(table.headers).to.have.members(['id', 'name']);
             expect(table.rows).to.deep.equal([
@@ -18,18 +18,11 @@ describe('Table', function () {
                 {id: 2, name: 'bar'},
                 {id: '3', name: 'baz'}
             ]);
+
+            done();
         } catch (e) {
             done(e)
         }
-
-        done();
-    });
-
-    it('should support appending rows', function () {
-        let table = new Table();
-        expect(table.rows).to.deep.equal([]);
-        table.appendRow({foo: 'foo'});
-        expect(table.rows).to.deep.equal([{foo: 'foo'}]);
     });
 
     it('should be iterable', function () {

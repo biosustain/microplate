@@ -1,18 +1,19 @@
 import XLSX from 'xlsx';
-
+import {Table} from './table.js';
+import {pad, validateRecord} from '../utils.js';
 
 function dimensions(sheet, row) {
     let rows = 1, columns = 1;
-    for (let offset = 2; offset < sheet.rows; offset++) {
-        let rowLabel = sheet.get(row + offset, 0);
-        if (rowLabel.length != 1 || rowLabel.charCodeAt(0) - 65 != offset - 1) {
+    for (let offset = 1; offset < sheet.rows; offset++) {
+        let label = sheet.get(row + offset, 0);
+        if (!label || label.length != 1 || label.charCodeAt(0) - 65 != offset - 1) {
             break;
         }
         rows = offset;
     }
 
-    for (let offset = 2; offset < sheet.columns; offset++) {
-        if (Number(sheet.get(row, offset)) != offset - 1) {
+    for (let offset = 1; offset < sheet.columns; offset++) {
+        if (Number(sheet.get(row, offset)) != offset) {
             break;
         }
         columns = offset;
@@ -37,45 +38,58 @@ function comparePositions(a, b) {
 
 }
 
-class PlateLayout {
-
-    constructor(contents, {name = null, rows = null, columns = null}) {
-        this.contents = contents;
-        this.name = name;
-        this.rows = rows;
-        this.columns = columns;
-    }
+export class PlateLayout {
 
     /**
      *
-     * @param {[number, number]|string} position
-     * @param {string} key
+     * @param {Array|Object} contents
+     * @param name
+     * @param rows
+     * @param columns
      */
-    get([row, column]) {
-        if (this.rows > row && this.columns > column) {
-            return this.contents[position];
+    constructor(contents, {name = null, rows = null, columns = null} = {}) {
+        if(contents instanceof Array) {
+            this.contents = {};
+            for(let [position, content] of contents) {
+                this.contents[position] = content;
+            }
+        } else {
+            this.contents = contents;
         }
-        throw new RangeError('Position out of bounds');
+        this.name = name;
+        this.rows = rows;
+        this.columns = columns;
+        // TODO calculate rows and columns if not given.
     }
 
-    set(position, value) {
-        this.contents[position] = value;
+    get(row, column) {
+        return this.contents[encodePosition(row, column)];
     }
 
-    update(position, contents) {
-
+    pluck(row, column, header = 'default') {
+        let contents = this.contents[encodePosition(row, column)];
+        if(contents) {
+            return contents[header]
+        }
     }
 
-    clear(position) {
-
+    positions(zeroBased = false) {
+        return Object.keys(this.contents)
+            .sort(comparePositions);
     }
 
-    values(key = null) {
-
+    entries() {
+        return [for (position of this.positions()) [position, this.contents[position]]];
     }
 
-    toSheet(keys = null) {
-        return PlateLayout.toSheet([this], keys)
+    get size() {
+        if(this.rows != null && this.columns != null) {
+            return this.rows * this.columns;
+        }
+    }
+
+    toSheet(headers = null) {
+        return PlateLayout.toSheet([this], headers)
     }
 
     /**
@@ -83,38 +97,42 @@ class PlateLayout {
      * @param layouts
      * @param keys
      */
-    static toSheet(layouts, keys = null) {
+    static toSheet(layouts, headers = null, format = 'list') {
 
     }
 
-
-    async validate(validators, parallel = true) {
-
-        // TODO separate validation step.
-
-        // returns a listing of all validation errors by position.
-        //
-        // this.validation...
-
+    async validate(validators, parallel = false) {
+        let contents = {};
+        let errors = {};
 
         if(parallel) {
+            let ready = Promise.resolve(null);
 
+            for(let [position, content] of this.entries()) {
+                ready = ready.then(() =>
+                    validateRecord(content, validators).then(
+                        (value) => { contents[position] = value },
+                        (error) => { errors[position] = error })
+                );
+                console.log(position, content)
+            }
+
+            await ready;
         } else {
-            let contents = {};
-            let errors = {};
             for(let [position, content] of this.entries()) {
                 try {
-                    contents[position] = await validateRecord(content);
+                    contents[position] = await validateRecord(content, validators);
                 } catch (e) {
                     errors[position] = e;
                 }
             }
 
-            if(Object.keys(errors).length == 0) {
-                return new PlateLayout(contents, this);
-            } else {
-                throw errors;
-            }
+        }
+
+        if(Object.keys(errors).length == 0) {
+            return new PlateLayout(contents, this);
+        } else {
+            throw errors;
         }
     }
 
@@ -124,15 +142,13 @@ class PlateLayout {
      * @param sheet
      * @param required
      * @param converters
-     * @param validators
-     * @param parallel
      */
-    static async parse(sheet, {
+    static parse(sheet, {
         required=[],
         aliases={},
         converters={},
-        validators={},
-        parallel=true
+        //validators={},
+        //parallel=true
         } = {}) {
 
 
@@ -144,7 +160,7 @@ class PlateLayout {
 
             for (let r = 0; r <= sheet.rows; r++) {
                 // TODO also check that platename is not null?
-                if (sheet.get(row + 1, 0) != 'A' || Number(sheet.get(row, 1)) != 1) {
+                if (sheet.get(r + 1, 0) != 'A' || Number(sheet.get(r, 1)) != 1) {
                     continue;
                 }
 
@@ -154,44 +170,42 @@ class PlateLayout {
 
                 for (let row = 1; row <= rows; row++) {
                     for (let column = 1; column <= columns; column++) {
-                        contents[PlateLayout.encodePosition(row, column)] = sheet.get(r + row, column);
+                        contents[PlateLayout.encodePosition(row, column)] = {'default': sheet.get(r + row, column)};
                     }
                 }
 
-
                 layouts.push(new PlateLayout(contents, {name, rows, columns}));
+                r += rows;
             }
-
-
-            for(let layout of layouts) {
-
-                await Promise.all([for(position of Object.keys(contents))
-                    [position, validateRecord(contents[position])]]);
-
-             //   for(let [position, content] of )
-
-            }
+            //
+            //
+            //for(let layout of layouts) {
+            //
+            //    await Promise.all([for(position of Object.keys(contents))
+            //        [position, validateRecord(contents[position])]]);
+            //
+            // //   for(let [position, content] of )
+            //
+            //}
 
             return layouts;
 
         } else {
             let contents = {};
-            let table = await Table.parse(sheet, {
+            let table = Table.parse(sheet, {
                 required: required.concat(['plate', 'position']),
-                converters: Object.assign(converters, {plate: 'string', position: 'string'}),
-                validators: Object.assign(validators, {position: validatePosition}),
+                converters: Object.assign(converters, {plate: 'string', position: 'string(position)'}),
                 aliases: Object.assign({
                     'plate name': 'plate',
                     'plate id': 'plate',
                     'plate barcode': 'plate',
                     'well': 'position'
-                }, aliases),
-                parallel
+                }, aliases)
             });
 
             for (let row of table) {
                 if (!(row.plate in contents)) {
-                    contents[row.plate] = {}
+                    contents[row.plate] = {};
                 }
 
                 contents[row.plate][row.position] = row;
@@ -203,19 +217,6 @@ class PlateLayout {
         }
     }
 
-    positions() {
-        return Object.keys(this.contents).sort(comparePositions);
-    }
-
-    entries() {
-        return [for (position of this.positions()) this.contents[position]];
-    }
-
-    get size() {
-        if(this.rows != null && this.columns != null) {
-            return this.rows * this.columns;
-        }
-    }
 
     static encodePosition(rowNumber, columnNumber, zeroBased = false) {
         return `${String.fromCharCode(64 + rowNumber + zeroBased)}${pad(columnNumber + zeroBased)}`;

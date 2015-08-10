@@ -4,7 +4,14 @@ import {Sheet} from './sheet';
 export class Workbook {
 
     constructor(sheets = {}) {
-        this.sheets = sheets;
+        if(sheets instanceof Array) {
+            this.sheets = {};
+            for(let sheet of sheets) {
+                sheets[sheet.name] = sheet;
+            }
+        } else {
+            this.sheets = sheets;
+        }
     }
 
     static fromFile(file) {

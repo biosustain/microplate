@@ -22,18 +22,20 @@ export class Table {
     }
 
     async validate(validators, parallel = true) {
+        let validatedRows;
+        if(parallel) {
+            validatedRows = await Promise.all([for(row of this.rows) validateRecord(row, validators)]);
+        } else {
+            validatedRows = [];
+            for(let row of rows) {
+                validatedRows.push(await validateRecord(row, validators, validatedRows));
+            }
+        }
 
-        // TODO do validation here.
+        return new Table(validatedRows, this.headers);
     }
 
-    static async parse(sheet, {
-        required   = [],
-        aliases    = {},
-        converters = {},
-        validators = {},
-        parallel   = false
-        } = {}) {
-
+    static parse(sheet, {required = [], aliases = {}, converters = {}} = {}) {
         // TODO make validator, required names lower case.
 
         let invertedAliases = {};
@@ -46,7 +48,7 @@ export class Table {
 
         let headers = [];
         for (let c = 0; c < sheet.columns; c++) {
-            let name = sheet.get([0, c]);
+            let name = sheet.get(0, c);
 
             if (!name) {
                 break;
@@ -70,7 +72,7 @@ export class Table {
             let row = {};
             for (let c = 0; c < headers.length; c++) {
                 let header = headers[c];
-                let value = sheet.get([r, c]);
+                let value = sheet.get(r, c);
 
                 if(value === undefined) {
                     continue;
@@ -88,22 +90,7 @@ export class Table {
             rows.push(row);
         }
 
-        let validatedRows;
-        if(parallel) {
-            validatedRows = await Promise.all([for(row of rows) validateRecord(row, validators)]);
-        } else {
-            validatedRows = [];
-            for(let row of rows) {
-                validatedRows.push(await validateRecord(row, validators, validatedRows));
-            }
-        }
-
-        return new Table(validatedRows, headers);
-
-    }
-
-    appendRow(contents) {
-        this.rows.push(contents);
+        return new Table(rows, headers);
     }
 
     toSheet() {

@@ -22,7 +22,7 @@ export async function validateRecord(record, validators, ...vargs) {
     return output;
 }
 
-export async function convert(value, converter = null) {
+export function convert(value, converter = null) {
     switch (converter) {
         case 'number':
             return Number(value);
@@ -32,7 +32,23 @@ export async function convert(value, converter = null) {
             return value.split(',').map(Number);
         case 'string':
             return value.toString();
+        case 'string(position)':
+            let position = value.toString();
+            if (!position.match(/[A-Z]\d+/)) {
+                throw `Invalid position: "${position}"`;
+            }
+            return position;
         default:
             return value
+    }
+}
+
+export function pad(number, digits = 2) {
+    number = parseInt(number);
+    var N = Math.pow(10, digits);
+    if (number < N) {
+        return String(N + number).slice(1);
+    } else {
+        return String(number);
     }
 }
