@@ -1,8 +1,8 @@
 {
   "name": "microplate",
-  "version": "2.0.0",
-  "description": "Reader & writer for microtiter plate layouts in XSLX or CSV format.",
-  "main": "dist/microplate.js",
+  "version": "2.0.0a1",
+  "description": "A module for parsing, reading & writing microtiter plate layouts in XSLX format.",
+  "main": "dist/index.js",
   "keywords": [
     "microplate",
     "microwell",
@@ -13,10 +13,12 @@
   ],
   "directories": {
     "example": "example",
-    "test": "tests"
+    "test": "test"
   },
   "scripts": {
-    "test": "mocha --compilers js:mocha-babel test/*.js"
+    "test": "mocha --compilers js:mocha-babel test/*.js",
+    "compile": "babel -d dist/ src/ --stage=0 --module=common",
+    "prepublish": "npm run compile"
   },
   "repository": {
     "type": "git",

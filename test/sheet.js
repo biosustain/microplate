@@ -1,5 +1,4 @@
-import {Sheet} from '../src/parsing/sheet.js';
-import {Workbook} from '../src/parsing/workbook.js';
+import {Sheet, Workbook} from '../src/index.js';
 import {expect} from 'chai';
 import XLSX from 'xlsx';
 import fs from 'fs';

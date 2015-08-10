@@ -1,4 +1,4 @@
-import {Workbook} from '../src/parsing/workbook.js';
+import {Workbook} from '../src/index.js';
 import {expect} from 'chai';
 import fs from 'fs';
 

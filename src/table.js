@@ -1,6 +1,6 @@
 import XLSX from 'xlsx';
 import {Sheet} from './sheet';
-import {convert, validateRecord} from '../utils';
+import {convert, validateRecord} from './utils.js';
 
 /**
  * Like Layout, but for tables that are not plate layouts.

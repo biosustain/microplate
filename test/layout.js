@@ -1,5 +1,4 @@
-import {PlateLayout} from '../src/parsing/layout.js';
-import {Workbook} from '../src/parsing/workbook.js';
+import {PlateLayout, Workbook} from '../src/index.js';
 import {expect} from 'chai';
 import fs from 'fs';
 

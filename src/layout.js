@@ -1,6 +1,6 @@
 import XLSX from 'xlsx';
 import {Table} from './table.js';
-import {pad, validateRecord} from '../utils.js';
+import {pad, validateRecord} from './utils.js';
 
 function dimensions(sheet, row) {
     let rows = 1, columns = 1;
@@ -143,15 +143,7 @@ export class PlateLayout {
      * @param required
      * @param converters
      */
-    static parse(sheet, {
-        required=[],
-        aliases={},
-        converters={},
-        //validators={},
-        //parallel=true
-        } = {}) {
-
-
+    static parse(sheet, {required = [], aliases = {}, converters = {}} = {}) {
         // Determine if layout is grid or list-style:
         // - list-style layout starts with a header row.
         // - grid-style layout starts with an empty line or plate name, followed by A,B,C..
@@ -177,19 +169,8 @@ export class PlateLayout {
                 layouts.push(new PlateLayout(contents, {name, rows, columns}));
                 r += rows;
             }
-            //
-            //
-            //for(let layout of layouts) {
-            //
-            //    await Promise.all([for(position of Object.keys(contents))
-            //        [position, validateRecord(contents[position])]]);
-            //
-            // //   for(let [position, content] of )
-            //
-            //}
 
             return layouts;
-
         } else {
             let contents = {};
             let table = Table.parse(sheet, {
