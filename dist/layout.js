@@ -10,6 +10,8 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _xlsx = require('xlsx');
@@ -384,6 +386,8 @@ var PlateLayout = (function () {
         value: function parse(sheet) {
             var _ref4 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
+            var _ref4$default = _ref4['default'];
+            var defaultKey = _ref4$default === undefined ? 'default' : _ref4$default;
             var _ref4$required = _ref4.required;
             var required = _ref4$required === undefined ? [] : _ref4$required;
             var _ref4$aliases = _ref4.aliases;
@@ -416,7 +420,7 @@ var PlateLayout = (function () {
 
                     for (var row = 1; row <= rows; row++) {
                         for (var column = 1; column <= columns; column++) {
-                            contents[PlateLayout.encodePosition(row, column)] = { 'default': sheet.get(r + row, column) };
+                            contents[PlateLayout.encodePosition(row, column)] = _defineProperty({}, defaultKey, sheet.get(r + row, column));
                         }
                     }
 
