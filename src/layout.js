@@ -143,7 +143,7 @@ export class PlateLayout {
      * @param required
      * @param converters
      */
-    static parse(sheet, {required = [], aliases = {}, converters = {}} = {}) {
+    static parse(sheet, {default: defaultKey = 'default', required = [], aliases = {}, converters = {}} = {}) {
         // Determine if layout is grid or list-style:
         // - list-style layout starts with a header row.
         // - grid-style layout starts with an empty line or plate name, followed by A,B,C..
@@ -162,7 +162,7 @@ export class PlateLayout {
 
                 for (let row = 1; row <= rows; row++) {
                     for (let column = 1; column <= columns; column++) {
-                        contents[PlateLayout.encodePosition(row, column)] = {'default': sheet.get(r + row, column)};
+                        contents[PlateLayout.encodePosition(row, column)] = {[defaultKey]: sheet.get(r + row, column)};
                     }
                 }
 
