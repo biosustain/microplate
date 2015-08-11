@@ -37,6 +37,12 @@ Alternatively, the spreadsheet can be in tabular format, which also allows for p
 
 The plate layout parser will return a list of all layouts it detects.
 
+## Installation
+
+You can install this package with NPM:
+
+	npm install microplate
+
 
 ## Usage
 
@@ -124,7 +130,7 @@ The validation here makes use of `aliases` and `required` option values, for hea
 
 #### Validation step
 
-To validate each position in a plate layout, use t `PlateLayout.prototype.validate()`. 
+To validate each position in a plate layout, use `PlateLayout.prototype.validate()`. 
 
 
 	// dummy lookup function
