@@ -8,7 +8,7 @@ The `microplate` package is built for parsing microtiter plate information from 
 
 A spreadsheet with one or more plate layouts will be formatted like this:
 
-
+```
 	plate-1  1       2		  3		...
 	A	     item-1  item-2
 	B                         item-3
@@ -23,6 +23,7 @@ A spreadsheet with one or more plate layouts will be formatted like this:
 	B
 	.
 	.
+```
 
 Alternatively, the spreadsheet can be in tabular format, which also allows for providing multiple columns of data:
 
