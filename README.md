@@ -113,7 +113,7 @@ let sheet = new Sheet([
 
 let layouts = PlateLayout.parse(sheet, {
     aliases: {
-    	'score value': 'score'
+    	'score': ['score value']
     }
     required: ['name', 'score'],
     converters: {
@@ -128,7 +128,7 @@ The validation here makes use of `aliases` and `required` option values, for hea
 ```
 PlateLayout.parse(sheet: Sheet, {
 	default?: string,
-	aliases?: {[alias:string]: string},
+	aliases?: {[name:string]: string[]},
 	converters?: {[name:string]: string},
 	required?: string[]
 }): PlateLayout[]
