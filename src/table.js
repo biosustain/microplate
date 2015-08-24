@@ -36,14 +36,17 @@ export class Table {
     }
 
     static parse(sheet, {required = [], aliases = {}, converters = {}} = {}) {
-        // TODO make validator, required names lower case.
-
         let invertedAliases = {};
         for (let name of Object.keys(aliases)) {
-            name = name.toLowerCase();
+            // default alias: lower case -> original case.
+            invertedAliases[name.toLowerCase()] = name;
             for (let alias of aliases[name]) {
                 invertedAliases[alias.toLowerCase()] = name;
             }
+        }
+
+        for(let name of required) {
+            invertedAliases[name.toLowerCase()] = name;
         }
 
         let headers = [];
@@ -54,6 +57,7 @@ export class Table {
                 break;
             }
 
+            name = name.toLowerCase();
             if (name in invertedAliases) {
                 name = invertedAliases[name];
             }
