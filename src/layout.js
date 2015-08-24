@@ -177,10 +177,8 @@ export class PlateLayout {
                 required: required.concat(['plate', 'position']),
                 converters: Object.assign(converters, {plate: 'string', position: 'string(position)'}),
                 aliases: Object.assign({
-                    'plate name': 'plate',
-                    'plate id': 'plate',
-                    'plate barcode': 'plate',
-                    'well': 'position'
+                    'plate': ['plate', 'plate id', 'plate barcode'],
+                    'position': ['well']
                 }, aliases)
             });
 

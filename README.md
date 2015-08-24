@@ -109,7 +109,7 @@ A list-based plate layout is processed like so:
 
     let layouts = PlateLayout.parse(sheet, {
     	aliases: {
-    		'score value': 'score'
+    		'score': ['score value']
     	}
     	required: ['name', 'score'],
     	converters: {
