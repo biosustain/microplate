@@ -24,6 +24,26 @@ describe('Table', function () {
         }
     });
 
+    it('should fail to validate an invalid sheet', async function (done) {
+        try {
+            let sheet = wb.sheet('valid-simple-1');
+            let table = await Table.parse(sheet).validate({
+                id: async function(id) {
+                    if(id % 2 == 0) {
+                        throw 'IDs must be odd. Duh.';
+                    }
+                }
+            });
+
+            expect(true).to.be.false; // this should be unreachable
+        } catch (e) {
+            expect(e).to.deep.equal({
+                1: {id: 'IDs must be odd. Duh.'}
+            });
+            done()
+        }
+    });
+
     it('should be iterable', function () {
         let table = new Table([
             {id: 1},

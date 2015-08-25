@@ -8,15 +8,24 @@
  */
 export async function validateRecord(record, validators, ...vargs) {
     let output = {};
+    let errors = {};
 
     for (let name of Object.keys(record)) {
         let value = record[name];
 
         if (name in validators) {
-            value = await validators[name](value, ...vargs);
+            try {
+                value = await validators[name](value, ...vargs);
+            } catch (e) {
+                errors[name] = e;
+            }
         }
 
         output[name] = value;
+    }
+
+    if(Object.keys(errors).length) {
+        throw errors;
     }
 
     return output;

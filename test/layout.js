@@ -130,9 +130,15 @@ describe('Layouts', () => {
                 expect(true).to.be.false; // this should be unreachable
             } catch (e) {
                 expect(e).to.deep.equal({
-                    "A01": "1 does not exist!",
-                    "A02": "2 does not exist!",
-                    "A03": "3 does not exist!"
+                    "A01": {
+                        id: "1 does not exist!"
+                    },
+                    "A02": {
+                        id: "2 does not exist!"
+                    },
+                    "A03": {
+                        id: "3 does not exist!"
+                    }
                 });
             }
 
@@ -164,9 +170,15 @@ describe('Layouts', () => {
                 expect(true).to.be.false; // this should be unreachable
             } catch (e) {
                 expect(e).to.deep.equal({
-                    "A01": "1 does not exist!",
-                    "A02": "2 does not exist!",
-                    "A03": "3 does not exist!"
+                    "A01": {
+                        id: "1 does not exist!"
+                    },
+                    "A02": {
+                        id: "2 does not exist!"
+                    },
+                    "A03": {
+                        id: "3 does not exist!"
+                    }
                 });
             }
 

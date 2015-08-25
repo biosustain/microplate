@@ -22,17 +22,37 @@ export class Table {
     }
 
     async validate(validators, parallel = true) {
-        let validatedRows;
-        if(parallel) {
-            validatedRows = await Promise.all([for(row of this.rows) validateRecord(row, validators)]);
-        } else {
-            validatedRows = [];
-            for(let row of rows) {
-                validatedRows.push(await validateRecord(row, validators, validatedRows));
-            }
-        }
+        let contents = {};
+        let errors = {};
 
-        return new Table(validatedRows, this.headers);
+        if(parallel) {
+            let ready = Promise.resolve(null);
+
+            for(let [index, content] of this.rows.entries()) {
+                ready = ready.then(() =>
+                        validateRecord(content, validators).then(
+                            (value) => { contents[index] = value },
+                            (error) => { errors[index] = error })
+                );
+                console.log(index, content)
+            }
+
+            await ready;
+        } else {
+            for(let [index, content] of this.rows.entries()) {
+                try {
+                    contents[index] = await validateRecord(content, validators);
+                } catch (e) {
+                    errors[index] = e;
+                }
+            }
+
+        }
+        if(Object.keys(errors).length == 0) {
+            return new Table([for(index of this.rows.keys()) contents[index]], this.headers);
+        } else {
+            throw errors;
+        }
     }
 
     static parse(sheet, {required = [], aliases = {}, converters = {}} = {}) {

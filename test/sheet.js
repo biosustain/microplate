@@ -3,6 +3,12 @@ import {expect} from 'chai';
 import XLSX from 'xlsx';
 import fs from 'fs';
 
+/**
+ *
+ * FIXME all of this needs to be redone.
+ *
+ */
+
 describe('Sheet parsing', () => {
 
     const data = [
