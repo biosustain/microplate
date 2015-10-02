@@ -17,6 +17,7 @@ exports.pad = pad;
 
 function validateRecord(record, validators) {
     var output,
+        errors,
         _iteratorNormalCompletion,
         _didIteratorError,
         _iteratorError,
@@ -33,10 +34,11 @@ function validateRecord(record, validators) {
         while (1) switch (context$1$0.prev = context$1$0.next) {
             case 0:
                 output = {};
+                errors = {};
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                context$1$0.prev = 4;
+                context$1$0.prev = 5;
 
                 for (_len = args$1$0.length, vargs = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
                     vargs[_key - 2] = args$1$0[_key];
@@ -44,9 +46,9 @@ function validateRecord(record, validators) {
 
                 _iterator = Object.keys(record)[Symbol.iterator]();
 
-            case 7:
+            case 8:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                    context$1$0.next = 18;
+                    context$1$0.next = 25;
                     break;
                 }
 
@@ -54,67 +56,84 @@ function validateRecord(record, validators) {
                 value = record[_name];
 
                 if (!(_name in validators)) {
-                    context$1$0.next = 14;
+                    context$1$0.next = 21;
                     break;
                 }
 
-                context$1$0.next = 13;
+                context$1$0.prev = 12;
+                context$1$0.next = 15;
                 return regeneratorRuntime.awrap(validators[_name].apply(validators, [value].concat(vargs)));
 
-            case 13:
-                value = context$1$0.sent;
-
-            case 14:
-
-                output[_name] = value;
-
             case 15:
-                _iteratorNormalCompletion = true;
-                context$1$0.next = 7;
+                value = context$1$0.sent;
+                context$1$0.next = 21;
                 break;
 
             case 18:
-                context$1$0.next = 24;
+                context$1$0.prev = 18;
+                context$1$0.t0 = context$1$0['catch'](12);
+
+                errors[_name] = context$1$0.t0;
+
+            case 21:
+
+                output[_name] = value;
+
+            case 22:
+                _iteratorNormalCompletion = true;
+                context$1$0.next = 8;
                 break;
 
-            case 20:
-                context$1$0.prev = 20;
-                context$1$0.t0 = context$1$0['catch'](4);
-                _didIteratorError = true;
-                _iteratorError = context$1$0.t0;
+            case 25:
+                context$1$0.next = 31;
+                break;
 
-            case 24:
-                context$1$0.prev = 24;
-                context$1$0.prev = 25;
+            case 27:
+                context$1$0.prev = 27;
+                context$1$0.t1 = context$1$0['catch'](5);
+                _didIteratorError = true;
+                _iteratorError = context$1$0.t1;
+
+            case 31:
+                context$1$0.prev = 31;
+                context$1$0.prev = 32;
 
                 if (!_iteratorNormalCompletion && _iterator['return']) {
                     _iterator['return']();
                 }
 
-            case 27:
-                context$1$0.prev = 27;
+            case 34:
+                context$1$0.prev = 34;
 
                 if (!_didIteratorError) {
-                    context$1$0.next = 30;
+                    context$1$0.next = 37;
                     break;
                 }
 
                 throw _iteratorError;
 
-            case 30:
-                return context$1$0.finish(27);
+            case 37:
+                return context$1$0.finish(34);
 
-            case 31:
-                return context$1$0.finish(24);
+            case 38:
+                return context$1$0.finish(31);
 
-            case 32:
+            case 39:
+                if (!Object.keys(errors).length) {
+                    context$1$0.next = 41;
+                    break;
+                }
+
+                throw errors;
+
+            case 41:
                 return context$1$0.abrupt('return', output);
 
-            case 33:
+            case 42:
             case 'end':
                 return context$1$0.stop();
         }
-    }, null, this, [[4, 20, 24, 32], [25,, 27, 31]]);
+    }, null, this, [[5, 27, 31, 39], [12, 18], [32,, 34, 38]]);
 }
 
 function convert(value) {
