@@ -41,7 +41,8 @@ export class Table {
         } else {
             for(let [index, content] of this.rows.entries()) {
                 try {
-                    contents[index] = await validateRecord(content, validators);
+                    let previousRows = (for(index of Object.keys(contents)) contents[index]);
+                    contents[index] = await validateRecord(content, validators, previousRows);
                 } catch (e) {
                     errors[index] = e;
                 }

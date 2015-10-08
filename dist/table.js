@@ -51,7 +51,7 @@ var Table = (function () {
         value: function validate(validators) {
             var parallel = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
-            var contents, errors, ready, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _step2$value, index, content;
+            var contents, errors, ready, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _step2$value, index, content, previousRows;
 
             return regeneratorRuntime.async(function validate$(context$2$0) {
                 var _this = this;
@@ -130,7 +130,7 @@ var Table = (function () {
                         return regeneratorRuntime.awrap(ready);
 
                     case 26:
-                        context$2$0.next = 63;
+                        context$2$0.next = 64;
                         break;
 
                     case 28:
@@ -142,7 +142,7 @@ var Table = (function () {
 
                     case 33:
                         if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                            context$2$0.next = 49;
+                            context$2$0.next = 50;
                             break;
                         }
 
@@ -150,88 +150,155 @@ var Table = (function () {
                         index = _step2$value[0];
                         content = _step2$value[1];
                         context$2$0.prev = 37;
-                        context$2$0.next = 40;
-                        return regeneratorRuntime.awrap((0, _utilsJs.validateRecord)(content, validators));
+                        previousRows = regeneratorRuntime.mark(function callee$2$0() {
+                            var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, _index;
 
-                    case 40:
+                            return regeneratorRuntime.wrap(function callee$2$0$(context$3$0) {
+                                while (1) switch (context$3$0.prev = context$3$0.next) {
+                                    case 0:
+                                        _iteratorNormalCompletion3 = true;
+                                        _didIteratorError3 = false;
+                                        _iteratorError3 = undefined;
+                                        context$3$0.prev = 3;
+                                        _iterator3 = Object.keys(contents)[Symbol.iterator]();
+
+                                    case 5:
+                                        if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+                                            context$3$0.next = 12;
+                                            break;
+                                        }
+
+                                        _index = _step3.value;
+                                        context$3$0.next = 9;
+                                        return contents[_index];
+
+                                    case 9:
+                                        _iteratorNormalCompletion3 = true;
+                                        context$3$0.next = 5;
+                                        break;
+
+                                    case 12:
+                                        context$3$0.next = 18;
+                                        break;
+
+                                    case 14:
+                                        context$3$0.prev = 14;
+                                        context$3$0.t0 = context$3$0['catch'](3);
+                                        _didIteratorError3 = true;
+                                        _iteratorError3 = context$3$0.t0;
+
+                                    case 18:
+                                        context$3$0.prev = 18;
+                                        context$3$0.prev = 19;
+
+                                        if (!_iteratorNormalCompletion3 && _iterator3['return']) {
+                                            _iterator3['return']();
+                                        }
+
+                                    case 21:
+                                        context$3$0.prev = 21;
+
+                                        if (!_didIteratorError3) {
+                                            context$3$0.next = 24;
+                                            break;
+                                        }
+
+                                        throw _iteratorError3;
+
+                                    case 24:
+                                        return context$3$0.finish(21);
+
+                                    case 25:
+                                        return context$3$0.finish(18);
+
+                                    case 26:
+                                    case 'end':
+                                        return context$3$0.stop();
+                                }
+                            }, callee$2$0, _this, [[3, 14, 18, 26], [19,, 21, 25]]);
+                        })();
+                        context$2$0.next = 41;
+                        return regeneratorRuntime.awrap((0, _utilsJs.validateRecord)(content, validators, previousRows));
+
+                    case 41:
                         contents[index] = context$2$0.sent;
-                        context$2$0.next = 46;
+                        context$2$0.next = 47;
                         break;
 
-                    case 43:
-                        context$2$0.prev = 43;
+                    case 44:
+                        context$2$0.prev = 44;
                         context$2$0.t1 = context$2$0['catch'](37);
 
                         errors[index] = context$2$0.t1;
 
-                    case 46:
+                    case 47:
                         _iteratorNormalCompletion2 = true;
                         context$2$0.next = 33;
                         break;
 
-                    case 49:
-                        context$2$0.next = 55;
+                    case 50:
+                        context$2$0.next = 56;
                         break;
 
-                    case 51:
-                        context$2$0.prev = 51;
+                    case 52:
+                        context$2$0.prev = 52;
                         context$2$0.t2 = context$2$0['catch'](31);
                         _didIteratorError2 = true;
                         _iteratorError2 = context$2$0.t2;
 
-                    case 55:
-                        context$2$0.prev = 55;
+                    case 56:
                         context$2$0.prev = 56;
+                        context$2$0.prev = 57;
 
                         if (!_iteratorNormalCompletion2 && _iterator2['return']) {
                             _iterator2['return']();
                         }
 
-                    case 58:
-                        context$2$0.prev = 58;
+                    case 59:
+                        context$2$0.prev = 59;
 
                         if (!_didIteratorError2) {
-                            context$2$0.next = 61;
+                            context$2$0.next = 62;
                             break;
                         }
 
                         throw _iteratorError2;
 
-                    case 61:
-                        return context$2$0.finish(58);
-
                     case 62:
-                        return context$2$0.finish(55);
+                        return context$2$0.finish(59);
 
                     case 63:
+                        return context$2$0.finish(56);
+
+                    case 64:
                         if (!(Object.keys(errors).length == 0)) {
-                            context$2$0.next = 67;
+                            context$2$0.next = 68;
                             break;
                         }
 
                         return context$2$0.abrupt('return', new Table((function () {
                             var _ref = [];
-                            var _iteratorNormalCompletion3 = true;
-                            var _didIteratorError3 = false;
-                            var _iteratorError3 = undefined;
+                            var _iteratorNormalCompletion4 = true;
+                            var _didIteratorError4 = false;
+                            var _iteratorError4 = undefined;
 
                             try {
-                                for (var _iterator3 = _this.rows.keys()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                                    var index = _step3.value;
+                                for (var _iterator4 = _this.rows.keys()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                                    var index = _step4.value;
 
                                     _ref.push(contents[index]);
                                 }
                             } catch (err) {
-                                _didIteratorError3 = true;
-                                _iteratorError3 = err;
+                                _didIteratorError4 = true;
+                                _iteratorError4 = err;
                             } finally {
                                 try {
-                                    if (!_iteratorNormalCompletion3 && _iterator3['return']) {
-                                        _iterator3['return']();
+                                    if (!_iteratorNormalCompletion4 && _iterator4['return']) {
+                                        _iterator4['return']();
                                     }
                                 } finally {
-                                    if (_didIteratorError3) {
-                                        throw _iteratorError3;
+                                    if (_didIteratorError4) {
+                                        throw _iteratorError4;
                                     }
                                 }
                             }
@@ -239,14 +306,14 @@ var Table = (function () {
                             return _ref;
                         })(), this.headers));
 
-                    case 67:
+                    case 68:
                         throw errors;
 
-                    case 68:
+                    case 69:
                     case 'end':
                         return context$2$0.stop();
                 }
-            }, null, this, [[7, 12, 16, 24], [17,, 19, 23], [31, 51, 55, 63], [37, 43], [56,, 58, 62]]);
+            }, null, this, [[7, 12, 16, 24], [17,, 19, 23], [31, 52, 56, 64], [37, 44], [57,, 59, 63]]);
         }
     }, {
         key: 'toSheet',
@@ -255,37 +322,37 @@ var Table = (function () {
 
             var content = [this.headers].concat((function () {
                 var _concat = [];
-                var _iteratorNormalCompletion4 = true;
-                var _didIteratorError4 = false;
-                var _iteratorError4 = undefined;
+                var _iteratorNormalCompletion5 = true;
+                var _didIteratorError5 = false;
+                var _iteratorError5 = undefined;
 
                 try {
                     var _loop2 = function () {
-                        var row = _step4.value;
+                        var row = _step5.value;
 
                         _concat.push((function () {
                             var _concat$push = [];
-                            var _iteratorNormalCompletion5 = true;
-                            var _didIteratorError5 = false;
-                            var _iteratorError5 = undefined;
+                            var _iteratorNormalCompletion6 = true;
+                            var _didIteratorError6 = false;
+                            var _iteratorError6 = undefined;
 
                             try {
-                                for (var _iterator5 = _this2.headers[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                                    var header = _step5.value;
+                                for (var _iterator6 = _this2.headers[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                                    var header = _step6.value;
 
                                     _concat$push.push(row[header]);
                                 }
                             } catch (err) {
-                                _didIteratorError5 = true;
-                                _iteratorError5 = err;
+                                _didIteratorError6 = true;
+                                _iteratorError6 = err;
                             } finally {
                                 try {
-                                    if (!_iteratorNormalCompletion5 && _iterator5['return']) {
-                                        _iterator5['return']();
+                                    if (!_iteratorNormalCompletion6 && _iterator6['return']) {
+                                        _iterator6['return']();
                                     }
                                 } finally {
-                                    if (_didIteratorError5) {
-                                        throw _iteratorError5;
+                                    if (_didIteratorError6) {
+                                        throw _iteratorError6;
                                     }
                                 }
                             }
@@ -294,20 +361,20 @@ var Table = (function () {
                         })());
                     };
 
-                    for (var _iterator4 = _this2.rows[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                    for (var _iterator5 = _this2.rows[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
                         _loop2();
                     }
                 } catch (err) {
-                    _didIteratorError4 = true;
-                    _iteratorError4 = err;
+                    _didIteratorError5 = true;
+                    _iteratorError5 = err;
                 } finally {
                     try {
-                        if (!_iteratorNormalCompletion4 && _iterator4['return']) {
-                            _iterator4['return']();
+                        if (!_iteratorNormalCompletion5 && _iterator5['return']) {
+                            _iterator5['return']();
                         }
                     } finally {
-                        if (_didIteratorError4) {
-                            throw _iteratorError4;
+                        if (_didIteratorError5) {
+                            throw _iteratorError5;
                         }
                     }
                 }
@@ -344,65 +411,40 @@ var Table = (function () {
             var converters = _ref2$converters === undefined ? {} : _ref2$converters;
 
             var invertedAliases = {};
-            var _iteratorNormalCompletion6 = true;
-            var _didIteratorError6 = false;
-            var _iteratorError6 = undefined;
-
-            try {
-                for (var _iterator6 = Object.keys(aliases)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                    var _name = _step6.value;
-
-                    // default alias: lower case -> original case.
-                    invertedAliases[_name.toLowerCase()] = _name;
-                    var _iteratorNormalCompletion10 = true;
-                    var _didIteratorError10 = false;
-                    var _iteratorError10 = undefined;
-
-                    try {
-                        for (var _iterator10 = aliases[_name][Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
-                            var alias = _step10.value;
-
-                            invertedAliases[alias.toLowerCase()] = _name;
-                        }
-                    } catch (err) {
-                        _didIteratorError10 = true;
-                        _iteratorError10 = err;
-                    } finally {
-                        try {
-                            if (!_iteratorNormalCompletion10 && _iterator10['return']) {
-                                _iterator10['return']();
-                            }
-                        } finally {
-                            if (_didIteratorError10) {
-                                throw _iteratorError10;
-                            }
-                        }
-                    }
-                }
-            } catch (err) {
-                _didIteratorError6 = true;
-                _iteratorError6 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion6 && _iterator6['return']) {
-                        _iterator6['return']();
-                    }
-                } finally {
-                    if (_didIteratorError6) {
-                        throw _iteratorError6;
-                    }
-                }
-            }
-
             var _iteratorNormalCompletion7 = true;
             var _didIteratorError7 = false;
             var _iteratorError7 = undefined;
 
             try {
-                for (var _iterator7 = required[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                    var _name2 = _step7.value;
+                for (var _iterator7 = Object.keys(aliases)[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                    var _name = _step7.value;
 
-                    invertedAliases[_name2.toLowerCase()] = _name2;
+                    // default alias: lower case -> original case.
+                    invertedAliases[_name.toLowerCase()] = _name;
+                    var _iteratorNormalCompletion11 = true;
+                    var _didIteratorError11 = false;
+                    var _iteratorError11 = undefined;
+
+                    try {
+                        for (var _iterator11 = aliases[_name][Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+                            var alias = _step11.value;
+
+                            invertedAliases[alias.toLowerCase()] = _name;
+                        }
+                    } catch (err) {
+                        _didIteratorError11 = true;
+                        _iteratorError11 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion11 && _iterator11['return']) {
+                                _iterator11['return']();
+                            }
+                        } finally {
+                            if (_didIteratorError11) {
+                                throw _iteratorError11;
+                            }
+                        }
+                    }
                 }
             } catch (err) {
                 _didIteratorError7 = true;
@@ -415,6 +457,31 @@ var Table = (function () {
                 } finally {
                     if (_didIteratorError7) {
                         throw _iteratorError7;
+                    }
+                }
+            }
+
+            var _iteratorNormalCompletion8 = true;
+            var _didIteratorError8 = false;
+            var _iteratorError8 = undefined;
+
+            try {
+                for (var _iterator8 = required[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+                    var _name2 = _step8.value;
+
+                    invertedAliases[_name2.toLowerCase()] = _name2;
+                }
+            } catch (err) {
+                _didIteratorError8 = true;
+                _iteratorError8 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion8 && _iterator8['return']) {
+                        _iterator8['return']();
+                    }
+                } finally {
+                    if (_didIteratorError8) {
+                        throw _iteratorError8;
                     }
                 }
             }
@@ -435,29 +502,29 @@ var Table = (function () {
                 headers.push(_name3);
             }
 
-            var _iteratorNormalCompletion8 = true;
-            var _didIteratorError8 = false;
-            var _iteratorError8 = undefined;
+            var _iteratorNormalCompletion9 = true;
+            var _didIteratorError9 = false;
+            var _iteratorError9 = undefined;
 
             try {
-                for (var _iterator8 = required[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-                    var _name4 = _step8.value;
+                for (var _iterator9 = required[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+                    var _name4 = _step9.value;
 
                     if (!headers.includes(_name4)) {
                         throw 'Missing required header in table: "' + _name4 + '".';
                     }
                 }
             } catch (err) {
-                _didIteratorError8 = true;
-                _iteratorError8 = err;
+                _didIteratorError9 = true;
+                _iteratorError9 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion8 && _iterator8['return']) {
-                        _iterator8['return']();
+                    if (!_iteratorNormalCompletion9 && _iterator9['return']) {
+                        _iterator9['return']();
                     }
                 } finally {
-                    if (_didIteratorError8) {
-                        throw _iteratorError8;
+                    if (_didIteratorError9) {
+                        throw _iteratorError9;
                     }
                 }
             }
@@ -476,29 +543,29 @@ var Table = (function () {
                     row[header] = (0, _utilsJs.convert)(value, converters[header]);
                 }
 
-                var _iteratorNormalCompletion9 = true;
-                var _didIteratorError9 = false;
-                var _iteratorError9 = undefined;
+                var _iteratorNormalCompletion10 = true;
+                var _didIteratorError10 = false;
+                var _iteratorError10 = undefined;
 
                 try {
-                    for (var _iterator9 = required[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
-                        var _name5 = _step9.value;
+                    for (var _iterator10 = required[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+                        var _name5 = _step10.value;
 
                         if (!(_name5 in row)) {
                             throw 'Missing required field "' + _name5 + '" in row #' + (r + 1) + '".';
                         }
                     }
                 } catch (err) {
-                    _didIteratorError9 = true;
-                    _iteratorError9 = err;
+                    _didIteratorError10 = true;
+                    _iteratorError10 = err;
                 } finally {
                     try {
-                        if (!_iteratorNormalCompletion9 && _iterator9['return']) {
-                            _iterator9['return']();
+                        if (!_iteratorNormalCompletion10 && _iterator10['return']) {
+                            _iterator10['return']();
                         }
                     } finally {
-                        if (_didIteratorError9) {
-                            throw _iteratorError9;
+                        if (_didIteratorError10) {
+                            throw _iteratorError10;
                         }
                     }
                 }
