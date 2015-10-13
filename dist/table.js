@@ -79,7 +79,7 @@ var Table = (function () {
                             var content = _step$value[1];
 
                             ready = ready.then(function () {
-                                return (0, _utilsJs.validateRecord)(content, validators).then(function (value) {
+                                return (0, _utilsJs.validateRecord)(content, validators, content).then(function (value) {
                                     contents[index] = value;
                                 }, function (error) {
                                     errors[index] = error;
@@ -218,7 +218,7 @@ var Table = (function () {
                             }, callee$2$0, _this, [[3, 14, 18, 26], [19,, 21, 25]]);
                         })();
                         context$2$0.next = 41;
-                        return regeneratorRuntime.awrap((0, _utilsJs.validateRecord)(content, validators, previousRows));
+                        return regeneratorRuntime.awrap((0, _utilsJs.validateRecord)(content, validators, previousRows, content));
 
                     case 41:
                         contents[index] = context$2$0.sent;

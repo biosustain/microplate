@@ -1,6 +1,6 @@
 {
   "name": "microplate",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "A module for parsing, reading & writing microtiter plate layouts in XSLX format.",
   "main": "dist/index.js",
   "keywords": [
