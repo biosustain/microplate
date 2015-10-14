@@ -83,11 +83,11 @@ export class PlateLayout {
             .sort(comparePositions);
     }
 
-    *rowNumbers() {
+    rowNumbers() {
         return Array.from(range(1, this.rows + 1))
     }
 
-    *columnNumbers() {
+    columnNumbers() {
         return Array.from(range(1, this.columns + 1))
     }
 

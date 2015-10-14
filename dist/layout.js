@@ -10,6 +10,8 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+var marked0$0 = [range].map(regeneratorRuntime.mark);
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -58,6 +60,35 @@ function comparePositions(a, b) {
     return a.charCodeAt(0) - b.charCodeAt(0);
 }
 
+function range(begin, end) {
+    var interval = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+    var i;
+    return regeneratorRuntime.wrap(function range$(context$1$0) {
+        while (1) switch (context$1$0.prev = context$1$0.next) {
+            case 0:
+                i = begin;
+
+            case 1:
+                if (!(i < end)) {
+                    context$1$0.next = 7;
+                    break;
+                }
+
+                context$1$0.next = 4;
+                return i;
+
+            case 4:
+                i += interval;
+                context$1$0.next = 1;
+                break;
+
+            case 7:
+            case 'end':
+                return context$1$0.stop();
+        }
+    }, marked0$0[0], this);
+}
+
 var PlateLayout = (function () {
 
     /**
@@ -69,14 +100,14 @@ var PlateLayout = (function () {
      */
 
     function PlateLayout(contents) {
-        var _ref5 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+        var _ref3 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-        var _ref5$name = _ref5.name;
-        var name = _ref5$name === undefined ? null : _ref5$name;
-        var _ref5$rows = _ref5.rows;
-        var rows = _ref5$rows === undefined ? null : _ref5$rows;
-        var _ref5$columns = _ref5.columns;
-        var columns = _ref5$columns === undefined ? null : _ref5$columns;
+        var _ref3$name = _ref3.name;
+        var name = _ref3$name === undefined ? null : _ref3$name;
+        var _ref3$rows = _ref3.rows;
+        var rows = _ref3$rows === undefined ? null : _ref3$rows;
+        var _ref3$columns = _ref3.columns;
+        var columns = _ref3$columns === undefined ? null : _ref3$columns;
 
         _classCallCheck(this, PlateLayout);
 
@@ -142,125 +173,47 @@ var PlateLayout = (function () {
         }
     }, {
         key: 'rowNumbers',
-        value: regeneratorRuntime.mark(function rowNumbers() {
-            return regeneratorRuntime.wrap(function rowNumbers$(context$2$0) {
-                var _this = this;
-
-                while (1) switch (context$2$0.prev = context$2$0.next) {
-                    case 0:
-                        return context$2$0.abrupt('return', (function () {
-                            var _ref = [];
-                            var _iteratorNormalCompletion2 = true;
-                            var _didIteratorError2 = false;
-                            var _iteratorError2 = undefined;
-
-                            try {
-                                for (var _iterator2 = Array(_this.rows).keys()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                                    var i = _step2.value;
-
-                                    _ref.push(i + 1);
-                                }
-                            } catch (err) {
-                                _didIteratorError2 = true;
-                                _iteratorError2 = err;
-                            } finally {
-                                try {
-                                    if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-                                        _iterator2['return']();
-                                    }
-                                } finally {
-                                    if (_didIteratorError2) {
-                                        throw _iteratorError2;
-                                    }
-                                }
-                            }
-
-                            return _ref;
-                        })());
-
-                    case 1:
-                    case 'end':
-                        return context$2$0.stop();
-                }
-            }, rowNumbers, this);
-        })
+        value: function rowNumbers() {
+            return Array.from(range(1, this.rows + 1));
+        }
     }, {
         key: 'columnNumbers',
-        value: regeneratorRuntime.mark(function columnNumbers() {
-            return regeneratorRuntime.wrap(function columnNumbers$(context$2$0) {
-                var _this2 = this;
-
-                while (1) switch (context$2$0.prev = context$2$0.next) {
-                    case 0:
-                        return context$2$0.abrupt('return', (function () {
-                            var _ref2 = [];
-                            var _iteratorNormalCompletion3 = true;
-                            var _didIteratorError3 = false;
-                            var _iteratorError3 = undefined;
-
-                            try {
-                                for (var _iterator3 = Array(_this2.columns).keys()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                                    var i = _step3.value;
-
-                                    _ref2.push(i + 1);
-                                }
-                            } catch (err) {
-                                _didIteratorError3 = true;
-                                _iteratorError3 = err;
-                            } finally {
-                                try {
-                                    if (!_iteratorNormalCompletion3 && _iterator3['return']) {
-                                        _iterator3['return']();
-                                    }
-                                } finally {
-                                    if (_didIteratorError3) {
-                                        throw _iteratorError3;
-                                    }
-                                }
-                            }
-
-                            return _ref2;
-                        })());
-
-                    case 1:
-                    case 'end':
-                        return context$2$0.stop();
-                }
-            }, columnNumbers, this);
-        })
+        value: function columnNumbers() {
+            return Array.from(range(1, this.columns + 1));
+        }
     }, {
         key: 'entries',
         value: function entries() {
-            var _this3 = this;
+            var _this = this;
 
             return (function () {
-                var _ref3 = [];
-                var _iteratorNormalCompletion4 = true;
-                var _didIteratorError4 = false;
-                var _iteratorError4 = undefined;
+                var _ref = [];
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
 
                 try {
-                    for (var _iterator4 = _this3.positions()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                        var position = _step4.value;
+                    for (var _iterator2 = _this.positions()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var position = _step2.value;
 
-                        _ref3.push([position, _this3.contents[position]]);
+                        _ref.push([position, _this.contents[position]]);
                     }
                 } catch (err) {
-                    _didIteratorError4 = true;
-                    _iteratorError4 = err;
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
                 } finally {
                     try {
-                        if (!_iteratorNormalCompletion4 && _iterator4['return']) {
-                            _iterator4['return']();
+                        if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+                            _iterator2['return']();
                         }
                     } finally {
-                        if (_didIteratorError4) {
-                            throw _iteratorError4;
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
                         }
                     }
                 }
 
-                return _ref3;
+                return _ref;
             })();
         }
     }, {
@@ -281,7 +234,7 @@ var PlateLayout = (function () {
         value: function validate(validators) {
             var parallel = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
-            var contents, errors, ready, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _loop, _iterator5, _step5, _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, _step6$value, position, content;
+            var contents, errors, ready, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _loop, _iterator3, _step3, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _step4$value, position, content;
 
             return regeneratorRuntime.async(function validate$(context$2$0) {
                 while (1) switch (context$2$0.prev = context$2$0.next) {
@@ -295,16 +248,16 @@ var PlateLayout = (function () {
                         }
 
                         ready = Promise.resolve(null);
-                        _iteratorNormalCompletion5 = true;
-                        _didIteratorError5 = false;
-                        _iteratorError5 = undefined;
+                        _iteratorNormalCompletion3 = true;
+                        _didIteratorError3 = false;
+                        _iteratorError3 = undefined;
                         context$2$0.prev = 7;
 
                         _loop = function () {
-                            var _step5$value = _slicedToArray(_step5.value, 2);
+                            var _step3$value = _slicedToArray(_step3.value, 2);
 
-                            var position = _step5$value[0];
-                            var content = _step5$value[1];
+                            var position = _step3$value[0];
+                            var content = _step3$value[1];
 
                             ready = ready.then(function () {
                                 return (0, _utilsJs.validateRecord)(content, validators).then(function (value) {
@@ -316,7 +269,7 @@ var PlateLayout = (function () {
                             console.log(position, content);
                         };
 
-                        for (_iterator5 = this.entries()[Symbol.iterator](); !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                        for (_iterator3 = this.entries()[Symbol.iterator](); !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
                             _loop();
                         }
 
@@ -326,26 +279,26 @@ var PlateLayout = (function () {
                     case 12:
                         context$2$0.prev = 12;
                         context$2$0.t0 = context$2$0['catch'](7);
-                        _didIteratorError5 = true;
-                        _iteratorError5 = context$2$0.t0;
+                        _didIteratorError3 = true;
+                        _iteratorError3 = context$2$0.t0;
 
                     case 16:
                         context$2$0.prev = 16;
                         context$2$0.prev = 17;
 
-                        if (!_iteratorNormalCompletion5 && _iterator5['return']) {
-                            _iterator5['return']();
+                        if (!_iteratorNormalCompletion3 && _iterator3['return']) {
+                            _iterator3['return']();
                         }
 
                     case 19:
                         context$2$0.prev = 19;
 
-                        if (!_didIteratorError5) {
+                        if (!_didIteratorError3) {
                             context$2$0.next = 22;
                             break;
                         }
 
-                        throw _iteratorError5;
+                        throw _iteratorError3;
 
                     case 22:
                         return context$2$0.finish(19);
@@ -362,21 +315,21 @@ var PlateLayout = (function () {
                         break;
 
                     case 28:
-                        _iteratorNormalCompletion6 = true;
-                        _didIteratorError6 = false;
-                        _iteratorError6 = undefined;
+                        _iteratorNormalCompletion4 = true;
+                        _didIteratorError4 = false;
+                        _iteratorError4 = undefined;
                         context$2$0.prev = 31;
-                        _iterator6 = this.entries()[Symbol.iterator]();
+                        _iterator4 = this.entries()[Symbol.iterator]();
 
                     case 33:
-                        if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
+                        if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
                             context$2$0.next = 49;
                             break;
                         }
 
-                        _step6$value = _slicedToArray(_step6.value, 2);
-                        position = _step6$value[0];
-                        content = _step6$value[1];
+                        _step4$value = _slicedToArray(_step4.value, 2);
+                        position = _step4$value[0];
+                        content = _step4$value[1];
                         context$2$0.prev = 37;
                         context$2$0.next = 40;
                         return regeneratorRuntime.awrap((0, _utilsJs.validateRecord)(content, validators));
@@ -393,7 +346,7 @@ var PlateLayout = (function () {
                         errors[position] = context$2$0.t1;
 
                     case 46:
-                        _iteratorNormalCompletion6 = true;
+                        _iteratorNormalCompletion4 = true;
                         context$2$0.next = 33;
                         break;
 
@@ -404,26 +357,26 @@ var PlateLayout = (function () {
                     case 51:
                         context$2$0.prev = 51;
                         context$2$0.t2 = context$2$0['catch'](31);
-                        _didIteratorError6 = true;
-                        _iteratorError6 = context$2$0.t2;
+                        _didIteratorError4 = true;
+                        _iteratorError4 = context$2$0.t2;
 
                     case 55:
                         context$2$0.prev = 55;
                         context$2$0.prev = 56;
 
-                        if (!_iteratorNormalCompletion6 && _iterator6['return']) {
-                            _iterator6['return']();
+                        if (!_iteratorNormalCompletion4 && _iterator4['return']) {
+                            _iterator4['return']();
                         }
 
                     case 58:
                         context$2$0.prev = 58;
 
-                        if (!_didIteratorError6) {
+                        if (!_didIteratorError4) {
                             context$2$0.next = 61;
                             break;
                         }
 
-                        throw _iteratorError6;
+                        throw _iteratorError4;
 
                     case 61:
                         return context$2$0.finish(58);
@@ -472,16 +425,16 @@ var PlateLayout = (function () {
     }, {
         key: 'parse',
         value: function parse(sheet) {
-            var _ref6 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+            var _ref4 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-            var _ref6$default = _ref6['default'];
-            var defaultKey = _ref6$default === undefined ? 'default' : _ref6$default;
-            var _ref6$required = _ref6.required;
-            var required = _ref6$required === undefined ? [] : _ref6$required;
-            var _ref6$aliases = _ref6.aliases;
-            var aliases = _ref6$aliases === undefined ? {} : _ref6$aliases;
-            var _ref6$converters = _ref6.converters;
-            var converters = _ref6$converters === undefined ? {} : _ref6$converters;
+            var _ref4$default = _ref4['default'];
+            var defaultKey = _ref4$default === undefined ? 'default' : _ref4$default;
+            var _ref4$required = _ref4.required;
+            var required = _ref4$required === undefined ? [] : _ref4$required;
+            var _ref4$aliases = _ref4.aliases;
+            var aliases = _ref4$aliases === undefined ? {} : _ref4$aliases;
+            var _ref4$converters = _ref4.converters;
+            var converters = _ref4$converters === undefined ? {} : _ref4$converters;
 
             // Determine if layout is grid or list-style:
             // - list-style layout starts with a header row.
@@ -518,13 +471,13 @@ var PlateLayout = (function () {
 
                 return layouts;
             } else {
-                var _iteratorNormalCompletion7;
+                var _iteratorNormalCompletion5;
 
-                var _didIteratorError7;
+                var _didIteratorError5;
 
-                var _iteratorError7;
+                var _iteratorError5;
 
-                var _iterator7, _step7;
+                var _iterator5, _step5;
 
                 var _ret2 = (function () {
                     var contents = {};
@@ -537,13 +490,13 @@ var PlateLayout = (function () {
                         }, aliases)
                     });
 
-                    _iteratorNormalCompletion7 = true;
-                    _didIteratorError7 = false;
-                    _iteratorError7 = undefined;
+                    _iteratorNormalCompletion5 = true;
+                    _didIteratorError5 = false;
+                    _iteratorError5 = undefined;
 
                     try {
-                        for (_iterator7 = table[Symbol.iterator](); !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                            var row = _step7.value;
+                        for (_iterator5 = table[Symbol.iterator](); !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                            var row = _step5.value;
 
                             if (!(row.plate in contents)) {
                                 contents[row.plate] = {};
@@ -554,49 +507,49 @@ var PlateLayout = (function () {
                             delete row.position;
                         }
                     } catch (err) {
-                        _didIteratorError7 = true;
-                        _iteratorError7 = err;
+                        _didIteratorError5 = true;
+                        _iteratorError5 = err;
                     } finally {
                         try {
-                            if (!_iteratorNormalCompletion7 && _iterator7['return']) {
-                                _iterator7['return']();
+                            if (!_iteratorNormalCompletion5 && _iterator5['return']) {
+                                _iterator5['return']();
                             }
                         } finally {
-                            if (_didIteratorError7) {
-                                throw _iteratorError7;
+                            if (_didIteratorError5) {
+                                throw _iteratorError5;
                             }
                         }
                     }
 
                     return {
                         v: (function () {
-                            var _ref4 = [];
-                            var _iteratorNormalCompletion8 = true;
-                            var _didIteratorError8 = false;
-                            var _iteratorError8 = undefined;
+                            var _ref2 = [];
+                            var _iteratorNormalCompletion6 = true;
+                            var _didIteratorError6 = false;
+                            var _iteratorError6 = undefined;
 
                             try {
-                                for (var _iterator8 = Object.keys(contents)[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-                                    var _name2 = _step8.value;
+                                for (var _iterator6 = Object.keys(contents)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                                    var _name2 = _step6.value;
 
-                                    _ref4.push(new PlateLayout(contents[_name2], { name: _name2 }));
+                                    _ref2.push(new PlateLayout(contents[_name2], { name: _name2 }));
                                 }
                             } catch (err) {
-                                _didIteratorError8 = true;
-                                _iteratorError8 = err;
+                                _didIteratorError6 = true;
+                                _iteratorError6 = err;
                             } finally {
                                 try {
-                                    if (!_iteratorNormalCompletion8 && _iterator8['return']) {
-                                        _iterator8['return']();
+                                    if (!_iteratorNormalCompletion6 && _iterator6['return']) {
+                                        _iterator6['return']();
                                     }
                                 } finally {
-                                    if (_didIteratorError8) {
-                                        throw _iteratorError8;
+                                    if (_didIteratorError6) {
+                                        throw _iteratorError6;
                                     }
                                 }
                             }
 
-                            return _ref4;
+                            return _ref2;
                         })()
                     };
                 })();
@@ -624,7 +577,3 @@ var PlateLayout = (function () {
 })();
 
 exports.PlateLayout = PlateLayout;
-
-// XXX need a better range iterator
-
-// XXX need a better range iterator
