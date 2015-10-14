@@ -141,6 +141,64 @@ var PlateLayout = (function () {
             return Object.keys(this.contents).sort(comparePositions);
         }
     }, {
+        key: 'rowNumbers',
+        value: regeneratorRuntime.mark(function rowNumbers() {
+            var r;
+            return regeneratorRuntime.wrap(function rowNumbers$(context$2$0) {
+                while (1) switch (context$2$0.prev = context$2$0.next) {
+                    case 0:
+                        r = 1;
+
+                    case 1:
+                        if (!(r <= this.rows)) {
+                            context$2$0.next = 7;
+                            break;
+                        }
+
+                        context$2$0.next = 4;
+                        return r;
+
+                    case 4:
+                        r++;
+                        context$2$0.next = 1;
+                        break;
+
+                    case 7:
+                    case 'end':
+                        return context$2$0.stop();
+                }
+            }, rowNumbers, this);
+        })
+    }, {
+        key: 'columnNumbers',
+        value: regeneratorRuntime.mark(function columnNumbers() {
+            var c;
+            return regeneratorRuntime.wrap(function columnNumbers$(context$2$0) {
+                while (1) switch (context$2$0.prev = context$2$0.next) {
+                    case 0:
+                        c = 1;
+
+                    case 1:
+                        if (!(c <= this.columns)) {
+                            context$2$0.next = 7;
+                            break;
+                        }
+
+                        context$2$0.next = 4;
+                        return c;
+
+                    case 4:
+                        c++;
+                        context$2$0.next = 1;
+                        break;
+
+                    case 7:
+                    case 'end':
+                        return context$2$0.stop();
+                }
+            }, columnNumbers, this);
+        })
+    }, {
         key: 'entries',
         value: function entries() {
             var _this = this;

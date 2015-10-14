@@ -78,6 +78,18 @@ export class PlateLayout {
             .sort(comparePositions);
     }
 
+    *rowNumbers() {
+        for(let r = 1; r <= this.rows; r++) {
+            yield r
+        }
+    }
+
+    *columnNumbers() {
+        for(let c = 1; c <= this.columns; c++) {
+            yield c
+        }
+    }
+
     entries() {
         return [for (position of this.positions()) [position, this.contents[position]]];
     }
