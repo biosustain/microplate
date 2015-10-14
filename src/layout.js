@@ -35,7 +35,12 @@ function comparePositions(a, b) {
     }
 
     return a.charCodeAt(0) - b.charCodeAt(0);
+}
 
+function* range(begin, end, interval = 1) {
+    for (let i = begin; i < end; i += interval) {
+        yield i;
+    }
 }
 
 export class PlateLayout {
@@ -63,11 +68,11 @@ export class PlateLayout {
     }
 
     get(row, column) {
-        return this.contents[encodePosition(row, column)];
+        return this.contents[PlateLayout.encodePosition(row, column)];
     }
 
     pluck(row, column, header = 'default') {
-        let contents = this.contents[encodePosition(row, column)];
+        let contents = this.contents[PlateLayout.encodePosition(row, column)];
         if(contents) {
             return contents[header]
         }
@@ -79,15 +84,11 @@ export class PlateLayout {
     }
 
     *rowNumbers() {
-        for(let r = 1; r <= this.rows; r++) {
-            yield r
-        }
+        return Array.from(range(1, this.rows + 1))
     }
 
     *columnNumbers() {
-        for(let c = 1; c <= this.columns; c++) {
-            yield c
-        }
+        return Array.from(range(1, this.columns + 1))
     }
 
     entries() {
