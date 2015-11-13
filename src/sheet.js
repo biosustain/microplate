@@ -47,6 +47,8 @@ export class Sheet {
 
         if (typeof value == 'number') {
             cell = {v: value, t: 'n'}
+        } else if(value == null) {
+            return this.clear(row, column);
         } else {
             cell = {v: value.toString(), t: 's'}
         }
