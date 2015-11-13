@@ -22,6 +22,8 @@ var _xlsx2 = _interopRequireDefault(_xlsx);
 
 var _tableJs = require('./table.js');
 
+var _sheetJs = require('./sheet.js');
+
 var _utilsJs = require('./utils.js');
 
 function dimensions(sheet, row) {
@@ -226,8 +228,9 @@ var PlateLayout = (function () {
 
         /**
          *
-         * @param layouts
-         * @param keys
+         * @param {Array<PlateLayout>} layouts
+         * @param {string|Array<string>} headers
+         * @param {string} format 'list' or 'grid'
          */
     }, {
         key: 'validate',
@@ -419,8 +422,124 @@ var PlateLayout = (function () {
     }], [{
         key: 'toSheet',
         value: function toSheet(layouts) {
-            var headers = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-            var format = arguments.length <= 2 || arguments[2] === undefined ? 'list' : arguments[2];
+            var headers = arguments.length <= 1 || arguments[1] === undefined ? 'default' : arguments[1];
+            var format = arguments.length <= 2 || arguments[2] === undefined ? 'grid' : arguments[2];
+
+            switch (format) {
+                case 'grid':
+                    var sheet = new _sheetJs.Sheet();
+                    var rowOffset = 0;
+
+                    if (typeof headers !== 'string') {
+                        throw 'In grid format, only single header can be serialized, got: ' + headers;
+                    }
+
+                    var _iteratorNormalCompletion5 = true;
+                    var _didIteratorError5 = false;
+                    var _iteratorError5 = undefined;
+
+                    try {
+                        for (var _iterator5 = layouts[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                            var layout = _step5.value;
+
+                            sheet.set(rowOffset, 0, layout.name);
+
+                            var _iteratorNormalCompletion6 = true;
+                            var _didIteratorError6 = false;
+                            var _iteratorError6 = undefined;
+
+                            try {
+                                for (var _iterator6 = layout.columnNumbers()[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                                    var column = _step6.value;
+
+                                    sheet.set(rowOffset, column, column);
+                                }
+                            } catch (err) {
+                                _didIteratorError6 = true;
+                                _iteratorError6 = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion6 && _iterator6['return']) {
+                                        _iterator6['return']();
+                                    }
+                                } finally {
+                                    if (_didIteratorError6) {
+                                        throw _iteratorError6;
+                                    }
+                                }
+                            }
+
+                            var _iteratorNormalCompletion7 = true;
+                            var _didIteratorError7 = false;
+                            var _iteratorError7 = undefined;
+
+                            try {
+                                for (var _iterator7 = layout.rowNumbers()[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                                    var row = _step7.value;
+
+                                    sheet.set(rowOffset + row, 0, String.fromCharCode(64 + row));
+                                    var _iteratorNormalCompletion8 = true;
+                                    var _didIteratorError8 = false;
+                                    var _iteratorError8 = undefined;
+
+                                    try {
+                                        for (var _iterator8 = layout.columnNumbers()[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+                                            var column = _step8.value;
+
+                                            sheet.set(rowOffset + row, column, layout.pluck(row, column, headers));
+                                        }
+                                    } catch (err) {
+                                        _didIteratorError8 = true;
+                                        _iteratorError8 = err;
+                                    } finally {
+                                        try {
+                                            if (!_iteratorNormalCompletion8 && _iterator8['return']) {
+                                                _iterator8['return']();
+                                            }
+                                        } finally {
+                                            if (_didIteratorError8) {
+                                                throw _iteratorError8;
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (err) {
+                                _didIteratorError7 = true;
+                                _iteratorError7 = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion7 && _iterator7['return']) {
+                                        _iterator7['return']();
+                                    }
+                                } finally {
+                                    if (_didIteratorError7) {
+                                        throw _iteratorError7;
+                                    }
+                                }
+                            }
+
+                            rowOffset += layout.columns + 1;
+                        }
+                    } catch (err) {
+                        _didIteratorError5 = true;
+                        _iteratorError5 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion5 && _iterator5['return']) {
+                                _iterator5['return']();
+                            }
+                        } finally {
+                            if (_didIteratorError5) {
+                                throw _iteratorError5;
+                            }
+                        }
+                    }
+
+                    return sheet;
+                case 'list':
+                default:
+                    throw 'Unsupported format: ' + format;
+            }
         }
     }, {
         key: 'parse',
@@ -471,13 +590,13 @@ var PlateLayout = (function () {
 
                 return layouts;
             } else {
-                var _iteratorNormalCompletion5;
+                var _iteratorNormalCompletion9;
 
-                var _didIteratorError5;
+                var _didIteratorError9;
 
-                var _iteratorError5;
+                var _iteratorError9;
 
-                var _iterator5, _step5;
+                var _iterator9, _step9;
 
                 var _ret2 = (function () {
                     var contents = {};
@@ -490,13 +609,13 @@ var PlateLayout = (function () {
                         }, aliases)
                     });
 
-                    _iteratorNormalCompletion5 = true;
-                    _didIteratorError5 = false;
-                    _iteratorError5 = undefined;
+                    _iteratorNormalCompletion9 = true;
+                    _didIteratorError9 = false;
+                    _iteratorError9 = undefined;
 
                     try {
-                        for (_iterator5 = table[Symbol.iterator](); !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                            var row = _step5.value;
+                        for (_iterator9 = table[Symbol.iterator](); !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+                            var row = _step9.value;
 
                             if (!(row.plate in contents)) {
                                 contents[row.plate] = {};
@@ -507,16 +626,16 @@ var PlateLayout = (function () {
                             delete row.position;
                         }
                     } catch (err) {
-                        _didIteratorError5 = true;
-                        _iteratorError5 = err;
+                        _didIteratorError9 = true;
+                        _iteratorError9 = err;
                     } finally {
                         try {
-                            if (!_iteratorNormalCompletion5 && _iterator5['return']) {
-                                _iterator5['return']();
+                            if (!_iteratorNormalCompletion9 && _iterator9['return']) {
+                                _iterator9['return']();
                             }
                         } finally {
-                            if (_didIteratorError5) {
-                                throw _iteratorError5;
+                            if (_didIteratorError9) {
+                                throw _iteratorError9;
                             }
                         }
                     }
@@ -524,27 +643,27 @@ var PlateLayout = (function () {
                     return {
                         v: (function () {
                             var _ref2 = [];
-                            var _iteratorNormalCompletion6 = true;
-                            var _didIteratorError6 = false;
-                            var _iteratorError6 = undefined;
+                            var _iteratorNormalCompletion10 = true;
+                            var _didIteratorError10 = false;
+                            var _iteratorError10 = undefined;
 
                             try {
-                                for (var _iterator6 = Object.keys(contents)[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                                    var _name2 = _step6.value;
+                                for (var _iterator10 = Object.keys(contents)[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+                                    var _name2 = _step10.value;
 
                                     _ref2.push(new PlateLayout(contents[_name2], { name: _name2 }));
                                 }
                             } catch (err) {
-                                _didIteratorError6 = true;
-                                _iteratorError6 = err;
+                                _didIteratorError10 = true;
+                                _iteratorError10 = err;
                             } finally {
                                 try {
-                                    if (!_iteratorNormalCompletion6 && _iterator6['return']) {
-                                        _iterator6['return']();
+                                    if (!_iteratorNormalCompletion10 && _iterator10['return']) {
+                                        _iterator10['return']();
                                     }
                                 } finally {
-                                    if (_didIteratorError6) {
-                                        throw _iteratorError6;
+                                    if (_didIteratorError10) {
+                                        throw _iteratorError10;
                                     }
                                 }
                             }
