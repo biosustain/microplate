@@ -1,5 +1,6 @@
 import XLSX from 'xlsx';
 import {Table} from './table.js';
+import {Sheet} from './sheet.js';
 import {pad, validateRecord} from './utils.js';
 
 function dimensions(sheet, row) {
@@ -107,11 +108,42 @@ export class PlateLayout {
 
     /**
      *
-     * @param layouts
-     * @param keys
+     * @param {Array<PlateLayout>} layouts
+     * @param {string|Array<string>} headers
+     * @param {string} format 'list' or 'grid'
      */
-    static toSheet(layouts, headers = null, format = 'list') {
+    static toSheet(layouts, headers = 'default', format = 'grid') {
+        switch(format) {
+            case 'grid':
+                let sheet = new Sheet();
+                let rowOffset = 0;
 
+                if(typeof headers !== 'string') {
+                    throw `In grid format, only single header can be serialized, got: ${headers}`;
+                }
+
+                for (let layout of layouts) {
+                    sheet.set(rowOffset, 0, layout.name);
+
+                    for(let column of layout.columnNumbers()) {
+                        sheet.set(rowOffset, column, column);
+                    }
+
+                    for(let row of layout.rowNumbers()) {
+                        sheet.set(rowOffset + row, 0, String.fromCharCode(64 + row));
+                        for(let column of layout.columnNumbers()) {
+                            sheet.set(rowOffset + row, column, layout.pluck(row, column, headers));
+                        }
+                    }
+
+                    rowOffset += layout.columns + 1;
+                }
+
+                return sheet;
+            case 'list':
+                default:
+                throw `Unsupported format: ${format}`;
+        }
     }
 
     async validate(validators, parallel = false) {
